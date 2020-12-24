@@ -40,4 +40,9 @@ class MainActivity : AppCompatActivity() {
         Log.i(tag,"onDestroy")
     }
 
+    override fun onRestart() {
+        super.onRestart()
+        Log.i(tag, "restart")
+    }
+
 }
