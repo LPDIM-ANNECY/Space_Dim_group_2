@@ -1,4 +1,4 @@
-package fr.spacedim.spacedim
+package fr.test200.spacedim
 
 import org.junit.Test
 
