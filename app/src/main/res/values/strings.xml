@@ -19,4 +19,6 @@
     <string name="login_label_pseudo">Mon pseudo</string>
     <string name="login_label_new_player">Nouveau joueur ?</string>
     <string name="login_btn_new_player">Créer un astronaute</string>
+    <string name="login_title_leave">Quitter</string>
+    <string name="login_message_leave">"Veux-tu vraiment partir de cette superbe application ?"</string>
 </resources>
