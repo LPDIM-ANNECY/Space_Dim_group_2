@@ -5,8 +5,8 @@
 
     <!-- NOUVELLE COULEUR -->
     <color name="primaryColor">#1a237e</color>
-    <color name="primaryLightColor">#534bae</color>
-    <color name="primaryDarkColor">#000051</color>
+    <color name="primaryLightColor">#000051</color>
+    <color name="primaryDarkColor">#534bae</color>534bae
     <color name="secondaryColor">#e0e0e0</color>
     <color name="secondaryLightColor">#ffffff</color>
     <color name="secondaryDarkColor">#aeaeae</color>
