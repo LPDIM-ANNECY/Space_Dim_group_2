@@ -12,4 +12,10 @@
     <string name="endTextButtonHighScore">Meilleurs scores</string>
     <string name="endTextButtonShare">Partager votre exploit</string>
     <string name="endTextContentImageDescription">rocket</string>
+    <string name="btn_lunch">GO !</string>
+    <string name="login_page_title">DIM Space Team</string>
+    <string name="space">alt_space</string>
+    <string name="login_label_pseudo">Mon pseudo</string>
+    <string name="login_label_new_player">Nouveau joueur ?</string>
+    <string name="login_btn_new_player">Créer un astronaute</string>
 </resources>
