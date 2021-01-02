@@ -12,4 +12,5 @@
     <string name="endTextButtonHighScore">Meilleurs scores</string>
     <string name="endTextButtonShare">Partager votre exploit</string>
     <string name="endTextContentImageDescription">rocket</string>
+    <string name="waiting_room_title">Waiting Room</string>
 </resources>
