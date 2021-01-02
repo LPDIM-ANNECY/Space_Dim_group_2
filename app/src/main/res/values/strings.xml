@@ -12,6 +12,7 @@
     <string name="endTextButtonHighScore">Meilleurs scores</string>
     <string name="endTextButtonShare">Partager votre exploit</string>
     <string name="endTextContentImageDescription">rocket</string>
+    <string name="waiting_room_title">Waiting Room</string>
     <string name="btn_lunch">GO !</string>
     <string name="login_page_title">DIM Space Team</string>
     <string name="space">alt_space</string>
