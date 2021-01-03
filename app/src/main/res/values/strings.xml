@@ -21,4 +21,8 @@
     <string name="login_btn_new_player">Créer un astronaute</string>
     <string name="login_title_leave">Quitter</string>
     <string name="login_message_leave">"Veux-tu vraiment partir de cette superbe application ?"</string>
+    <string name="login_title_already_exist">User already exist</string>
+    <string name="common_loading">Loading...</string>
+    <string name="login_title_user_create">registered astronaut</string>
+    <string name="login_title_fail">a problem has occurred, try again in a few minutes</string>
 </resources>
