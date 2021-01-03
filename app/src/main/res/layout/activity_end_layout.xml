@@ -5,92 +5,92 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/secondaryLightColor"
-    tools:context=".MainActivity">
+    tools:context=".EndActivity">
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/end_image"
         android:layout_width="261dp"
         android:layout_height="253dp"
         android:layout_marginTop="60dp"
-        android:contentDescription="@string/endTextContentImageDescription"
+        android:contentDescription="@string/end_text_content_image_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/rocket_5666114_960_720" />
 
     <TextView
-        android:id="@+id/endTextCommentId"
+        android:id="@+id/end_text_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/endTextCommentWin"
+        android:text="@string/end_text_comment_win"
         android:textColor="@color/secondaryTextColor"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView" />
+        app:layout_constraintTop_toBottomOf="@+id/end_image" />
 
     <TextView
-        android:id="@+id/endTextScoreId"
+        android:id="@+id/end_text_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="@string/endTextScore"
+        android:text="@string/end_text_score"
         android:textColor="@color/secondaryTextColor"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endTextCommentId" />
+        app:layout_constraintTop_toBottomOf="@+id/end_text_comment" />
 
     <TextView
-        android:id="@+id/endTextScoreCommentId"
+        android:id="@+id/end_text_score_comment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="176dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="177dp"
-        android:text="@string/endTextScoreComment"
+        android:text="@string/end_text_score_comment"
         android:textColor="@color/secondaryTextColor"
         android:textSize="18sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endTextScoreId" />
+        app:layout_constraintTop_toBottomOf="@+id/end_text_score" />
 
     <Button
-        android:id="@+id/endButtonRetryId"
+        android:id="@+id/end_btn_retry"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/primaryColor"
-        android:text="@string/endTextButtonRetry"
+        android:text="@string/end_text_btn_retry"
         android:textColor="@color/primaryTextColor"
         app:iconTint="@color/primaryTextColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endTextScoreCommentId" />
+        app:layout_constraintTop_toBottomOf="@+id/end_text_score_comment" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/end_btn_share"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/primaryColor"
-        android:text="@string/endTextButtonShare"
+        android:text="@string/end_text_btn_share"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
+        app:layout_constraintTop_toBottomOf="@+id/end_btn_high_score" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/end_btn_high_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/primaryColor"
-        android:text="@string/endTextButtonHighScore"
+        android:text="@string/end_text_btn_high_score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/endButtonRetryId" />
+        app:layout_constraintTop_toBottomOf="@+id/end_btn_retry" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
