@@ -1,13 +1,13 @@
 package fr.test200.spacedim
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.system.exitProcess
 
 
 class LoginActivity : AppCompatActivity() {
@@ -24,20 +24,54 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        val btnRegister: Button = findViewById(R.id.btn_register)
+
+        createEventRegisterUser(btnRegister)
+
         Log.i(tag, "onCreate")
     }
 
+    private fun createEventRegisterUser(btnRegister: Button) {
+        val infoRegister: TextView = findViewById(R.id.login_info_register)
+        val oldColors: ColorStateList = infoRegister.textColors // switch white (loading) to red (error)
+
+        btnRegister.setOnClickListener {
+            infoRegister.setTextColor(oldColors); // white
+            infoRegister.text = resources.getString(R.string.common_loading)
+            val editTextPseudo: EditText = findViewById(R.id.login_pseudo)
+            val pseudo: String = editTextPseudo.text.trim().toString()
+
+            Utils.hideKeyboard(this)
+
+            UserPost(pseudo).create(
+                fun() { // success
+                    runOnUiThread { // android.view.ViewRootImpl$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
+                        infoRegister.text = resources.getString(R.string.login_title_user_create)
+                    }
+                }, fun() { // unauthorized
+                    runOnUiThread {
+                        infoRegister.setTextColor(resources.getColor(R.color.text_error, theme))
+                        infoRegister.text = resources.getString(R.string.login_title_already_exist)
+                    }
+                }, fun() { // error
+                    runOnUiThread {
+                        infoRegister.setTextColor(resources.getColor(R.color.text_error, theme))
+                        infoRegister.text = resources.getString(R.string.login_title_fail)
+                    }
+                })
+        }
+    }
+
     override fun onBackPressed() {
-        AlertDialog.Builder(this)
-                .setTitle(R.string.login_title_leave)
-                .setMessage(R.string.login_message_leave) // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
-                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _,_ ->
-                    finish()
-                    exitProcess(0)
-                }) // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
-                .show()
+        Utils.createDialog(
+            this,
+            resources.getString(R.string.login_title_leave),
+            resources.getString(R.string.login_message_leave),
+            true,
+            fun () {
+                Log.i(tag, "close")
+            }
+        )
     }
 
     override fun onStart() {
@@ -71,3 +105,4 @@ class LoginActivity : AppCompatActivity() {
     }
 
 }
+
