@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Other values-->
+    <attr name="colorPrimaryVariant" format="reference" />
+    <attr name="colorOnPrimary" format="reference" />
+    <attr name="colorSecondaryVariant" format="reference" />
+    <attr name="colorOnSecondary" format="reference" />
+</resources>

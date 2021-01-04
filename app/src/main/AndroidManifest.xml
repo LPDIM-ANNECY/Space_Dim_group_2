@@ -10,6 +10,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:screenOrientation="portrait"
         android:theme="@style/Theme.SpaceDIM">
         <activity android:name=".WaitingRoomActivity"></activity>
         <activity android:name=".EndActivity"></activity>
