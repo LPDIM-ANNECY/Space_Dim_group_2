@@ -1,4 +1,5 @@
 <resources>
+    <!-- TODO : trier les strings par catégorie pour plus de lisibilité -->
     <string name="app_name">SpaceDIM</string>
     <string name="end_text_comment_win">Vous avez gagné good Team !</string>
     <string name="end_text_comment_lose">Vous avez perdu expulser un de vos membre dans l\'espace !!</string>
@@ -21,6 +22,11 @@
     <string name="login_btn_new_player">Créer un astronaute</string>
     <string name="login_title_leave">Quitter</string>
     <string name="login_message_leave">"Veux-tu vraiment partir de cette superbe application ?"</string>
+    <string name="dashboard_sentence">Appuyez sur le gros boutton rouge !</string>
+    <string name="dashboard_state">Stabilité du réacteur : 100%</string>
+    <string name="dashboard_first_button">Détruire le module de commande</string>
+    <string name="dashboard_second_button">Hydropulser</string>
+    <string name="dashboard_third_button">Manger</string>
     <string name="login_title_already_exist">L\'utilisateur existe déjà</string>
     <string name="common_loading">Chargement…</string>
     <string name="login_title_user_create">Astronaute enregistré</string>
