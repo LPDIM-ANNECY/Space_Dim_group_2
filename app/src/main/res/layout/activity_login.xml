@@ -43,6 +43,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/login_title"
         android:textStyle="italic"
+        android:labelFor="@id/login_pseudo"
         />
 
 
@@ -60,6 +61,7 @@
             android:layout_width="210dp"
             android:layout_height="wrap_content"
             android:autofillHints=""
+            android:text=""
             android:textColor="?android:attr/colorPrimary"
             android:inputType="text"/>
 

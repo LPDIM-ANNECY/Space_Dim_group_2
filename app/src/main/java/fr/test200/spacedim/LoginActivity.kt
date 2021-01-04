@@ -69,7 +69,7 @@ class LoginActivity : AppCompatActivity() {
             resources.getString(R.string.login_message_leave),
             true,
             fun () {
-                Log.i(tag, "close")
+                finish()
             }
         )
     }
