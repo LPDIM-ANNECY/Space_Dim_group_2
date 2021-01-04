@@ -7,7 +7,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import kotlin.system.exitProcess
+import fr.test200.spacedim.Utils.Companion.createDialog
+
 
 class EndActivity : AppCompatActivity() {
     private val tag = "End page"
@@ -26,16 +27,15 @@ class EndActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        AlertDialog.Builder(this)
-                .setTitle(R.string.login_title_leave)
-                .setMessage(R.string.login_message_leave) // Specifying a listener allows you to take an action before dismissing the dialog.
-                // The dialog is automatically dismissed when a dialog button is clicked.
-                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
-                    finish()
-                    exitProcess(0)
-                }) // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
-                .show()
+        createDialog(
+                this,
+                "Quitter",
+                "Une derniere partie ?",
+                true,
+                fun () {
+                    Log.i(tag, "close")
+                }
+        )
     }
 
     override fun onStart() {
