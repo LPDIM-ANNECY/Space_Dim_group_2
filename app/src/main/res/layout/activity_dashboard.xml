@@ -10,7 +10,7 @@
         android:layout_width="147dp"
         android:layout_height="49dp"
         android:layout_marginEnd="48dp"
-        android:text="Hydropulser"
+        android:text="@string/dashboard_second_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -20,7 +20,7 @@
         android:layout_height="75dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:text="Détruire le module de commande"
+        android:text="@string/dashboard_first_button"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,7 @@
         android:layout_height="49dp"
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="50dp"
-        android:text="Manger"
+        android:text="@string/dashboard_third_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
@@ -41,10 +41,10 @@
         android:id="@+id/imageView2"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="44dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/guideline"
         app:srcCompat="@drawable/redButton" />
 
     <androidx.constraintlayout.widget.Guideline
@@ -52,7 +52,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="692dp" />
+        app:layout_constraintGuide_begin="531dp" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -61,14 +61,14 @@
         android:layout_height="142dp"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
+        android:max="100"
+        android:progress="40"
+        android:progressTint="@color/primary_light_color"
+        android:scaleY="5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="206dp"
-        android:progress="40"
-        android:max="100"
-        android:scaleY="5"
-        android:progressTint="@color/primary_light_color"/>
+        tools:layout_editor_absoluteY="206dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginEnd="50dp"
-        android:text="Appuyez sur le gros boutton rouge !"
+        android:text="@string/dashboard_sentence"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,11 +86,29 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Stabilité du réacteur : 100%"
+        android:text="@string/dashboard_state"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/button7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progressBar" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="50dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintGuide_begin="413dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
