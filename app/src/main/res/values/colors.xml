@@ -4,12 +4,14 @@
     <color name="white">#FFFFFFFF</color>
 
     <!-- NOUVELLE COULEUR -->
-    <color name="primaryColor">#1a237e</color>
-    <color name="primaryLightColor">#534bae</color>
-    <color name="primaryDarkColor">#000051</color>
-    <color name="secondaryColor">#e0e0e0</color>
-    <color name="secondaryLightColor">#ffffff</color>
-    <color name="secondaryDarkColor">#aeaeae</color>
-    <color name="primaryTextColor">#ffffff</color>
-    <color name="secondaryTextColor">#212121</color>
+    <color name="primary_color">#1a237e</color>
+    <color name="primary_light_color">#000051</color>
+    <color name="primary_dark_color">#534bae</color>534bae
+    <color name="secondary_color">#e0e0e0</color>
+    <color name="secondary_light_color">#ffffff</color>
+    <color name="secondary_dark_color">#aeaeae</color>
+    <color name="primary_text_color">#ffffff</color>
+    <color name="secondary_text_color">#212121</color>
+    <color name="text_error">#FF4141</color>
+    <color name="white_smoke">#F5F5F5</color>
 </resources>

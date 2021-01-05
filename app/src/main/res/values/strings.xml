@@ -1,3 +1,36 @@
 <resources>
+    <!-- TODO : trier les strings par catégorie pour plus de lisibilité -->
     <string name="app_name">SpaceDIM</string>
+    <string name="end_text_comment_win">Vous avez gagné good Team !</string>
+    <string name="end_text_comment_lose">Vous avez perdu expulser un de vos membre dans l\'espace !!</string>
+    <string name="end_text_score">Votre score est donc de: </string>
+    <string name="end_text_score_comment">Votre space reputation </string>
+    <string name="end_text_space_reputation_laika">Laïka</string>
+    <string name="end_text_space_reputation_yuri">Yuri</string>
+    <string name="end_text_space_reputation_valentina">Valentina</string>
+    <string name="end_text_space_reputation_apollo11">Apollo 11</string>
+    <string name="end_text_btn_retry">On retente sa chance ?</string>
+    <string name="end_text_btn_high_score">Meilleurs scores</string>
+    <string name="end_text_btn_share">Partager votre exploit</string>
+    <string name="end_text_content_image_description">rocket</string>
+    <string name="waiting_room_title">Waiting Room</string>
+    <string name="btn_lunch">GO !</string>
+    <string name="login_page_title">DIM Space Team</string>
+    <string name="space">alt_space</string>
+    <string name="login_label_pseudo">Mon pseudo</string>
+    <string name="login_label_new_player">Nouveau joueur ?</string>
+    <string name="login_btn_new_player">Créer un astronaute</string>
+    <string name="login_title_leave">Quitter</string>
+    <string name="login_message_leave">"Veux-tu vraiment partir de cette superbe application ?"</string>
+    <string name="dashboard_sentence">Appuyez sur le gros boutton rouge !</string>
+    <string name="dashboard_state">Stabilité du réacteur : 100%</string>
+    <string name="dashboard_first_button">Détruire le module de commande</string>
+    <string name="dashboard_second_button">Hydropulser</string>
+    <string name="dashboard_third_button">Manger</string>
+    <string name="dashboard_win">Abandonner</string>
+    <string name="dashboard_loose">Gagner</string>
+    <string name="login_title_already_exist">L\'utilisateur existe déjà</string>
+    <string name="common_loading">Chargement…</string>
+    <string name="login_title_user_create">Astronaute enregistré</string>
+    <string name="login_title_fail">Un problème est survenu, réessayez dans quelques minutes</string>
 </resources>
