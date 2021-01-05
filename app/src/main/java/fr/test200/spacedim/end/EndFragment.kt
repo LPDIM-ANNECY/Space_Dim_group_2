@@ -1,14 +1,16 @@
-package fr.test200.spacedim
+package fr.test200.spacedim.end
 
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import fr.test200.spacedim.R
 import fr.test200.spacedim.Utils.Companion.createDialog
+import fr.test200.spacedim.waitingRoom.WaitingRoomFragment
 import kotlinx.android.synthetic.main.activity_end_layout.*
 
 
-class EndActivity : AppCompatActivity() {
+class EndFragment : AppCompatActivity() {
     private val tag = "End page"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,7 +25,7 @@ class EndActivity : AppCompatActivity() {
         //endregion
 
         end_btn_retry.setOnClickListener {
-            val intent = Intent(this, WaitingRoomActivity::class.java)
+            val intent = Intent(this, WaitingRoomFragment::class.java)
             startActivity(intent)
         }
 

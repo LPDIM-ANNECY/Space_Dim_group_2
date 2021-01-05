@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/loginFragment">
+
+    <activity
+        android:id="@+id/loginFragment"
+        android:name="fr.test200.spacedim.login.LoginFragment"
+        android:label="activity_login"
+        tools:layout="@layout/activity_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_waitingRoomFragment"
+            app:destination="@id/waitingRoomFragment" />
+    </activity>
+    <fragment
+        android:id="@+id/waitingRoomFragment"
+        android:name="fr.test200.spacedim.waitingRoom.WaitingRoomFragment"
+        android:label="activity_waiting_room"
+        tools:layout="@layout/activity_waiting_room" >
+        <action
+            android:id="@+id/action_waitingRoomFragment_to_dashboardFragment"
+            app:destination="@id/dashboardFragment" />
+    </fragment>
+    <activity
+        android:id="@+id/endFragment"
+        android:name="fr.test200.spacedim.end.EndFragment"
+        android:label="activity_end_layout"
+        tools:layout="@layout/activity_end_layout" >
+        <action
+            android:id="@+id/action_endFragment_to_waitingRoomFragment"
+            app:destination="@id/waitingRoomFragment" />
+    </activity>
+    <activity
+        android:id="@+id/dashboardFragment"
+        android:name="fr.test200.spacedim.dashboard.DashboardFragment"
+        android:label="DashboardFragment" >
+        <action
+            android:id="@+id/action_dashboardFragment_to_endFragment"
+            app:destination="@id/endFragment" />
+    </activity>
+</navigation>

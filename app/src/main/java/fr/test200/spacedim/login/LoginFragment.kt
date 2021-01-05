@@ -1,4 +1,4 @@
-package fr.test200.spacedim
+package fr.test200.spacedim.login
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -6,12 +6,15 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import fr.test200.spacedim.R
+import fr.test200.spacedim.UserPost
+import fr.test200.spacedim.Utils
+import fr.test200.spacedim.waitingRoom.WaitingRoomFragment
 import kotlinx.android.synthetic.main.activity_login.*
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : AppCompatActivity() {
 
     private val tag = "Login page"
 
@@ -20,7 +23,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         btn_lunch.setOnClickListener {
-            val intent = Intent(this, WaitingRoomActivity::class.java)
+            val intent = Intent(this, WaitingRoomFragment::class.java)
             startActivity(intent)
         }
 
@@ -61,13 +64,13 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         Utils.createDialog(
-            this,
-            resources.getString(R.string.login_title_leave),
-            resources.getString(R.string.login_message_leave),
-            true,
-            fun () {
-                finish()
-            }
+                this,
+                resources.getString(R.string.login_title_leave),
+                resources.getString(R.string.login_message_leave),
+                true,
+                fun() {
+                    finish()
+                }
         )
     }
 
