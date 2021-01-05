@@ -11,7 +11,7 @@ class DashboardActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_end_layout)
+        setContentView(R.layout.activity_dashboard)
 
         val btnWin = findViewById<Button>(R.id.winButton)
         btnWin.setOnClickListener {

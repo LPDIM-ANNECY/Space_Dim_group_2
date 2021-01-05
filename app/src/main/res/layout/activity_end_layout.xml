@@ -11,7 +11,7 @@
         android:id="@+id/end_image"
         android:layout_width="261dp"
         android:layout_height="253dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="10dp"
         android:contentDescription="@string/end_text_content_image_description"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
