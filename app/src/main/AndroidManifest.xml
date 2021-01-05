@@ -13,6 +13,7 @@
         android:screenOrientation="portrait"
         android:theme="@style/Theme.SpaceDIM">
         <activity android:name=".WaitingRoomActivity"></activity>
+        <activity android:name=".DashboardActivity"></activity>
         <activity android:name=".EndActivity"></activity>
         <activity
             android:name=".LoginActivity"

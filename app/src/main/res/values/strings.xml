@@ -27,6 +27,8 @@
     <string name="dashboard_first_button">Détruire le module de commande</string>
     <string name="dashboard_second_button">Hydropulser</string>
     <string name="dashboard_third_button">Manger</string>
+    <string name="dashboard_win">Abandonner</string>
+    <string name="dashboard_loose">Gagner</string>
     <string name="login_title_already_exist">L\'utilisateur existe déjà</string>
     <string name="common_loading">Chargement…</string>
     <string name="login_title_user_create">Astronaute enregistré</string>
