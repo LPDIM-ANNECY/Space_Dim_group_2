@@ -1,13 +1,11 @@
 package fr.test200.spacedim
 
-import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import fr.test200.spacedim.Utils.Companion.createDialog
+import kotlinx.android.synthetic.main.activity_end_layout.*
 
 
 class EndActivity : AppCompatActivity() {
@@ -17,8 +15,14 @@ class EndActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end_layout)
 
-        val btnRetry = findViewById<Button>(R.id.end_btn_retry)
-        btnRetry.setOnClickListener {
+        //region win or loose intent param
+        val win = intent.getBooleanExtra("winKey", false)
+
+        if (!win)
+            end_text_comment.text = getString(R.string.end_text_comment_lose)
+        //endregion
+
+        end_btn_retry.setOnClickListener {
             val intent = Intent(this, WaitingRoomActivity::class.java)
             startActivity(intent)
         }
@@ -28,13 +32,13 @@ class EndActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         createDialog(
-                this,
-                "Quitter",
-                "Une derniere partie ?",
-                true,
-                fun () {
-                    Log.i(tag, "close")
-                }
+            this,
+            "Quitter",
+            "Une derniere partie ?",
+            true,
+            fun() {
+                Log.i(tag, "close")
+            }
         )
     }
 

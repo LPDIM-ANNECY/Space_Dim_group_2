@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import kotlinx.android.synthetic.main.activity_waiting_room.*
 
 class WaitingRoomActivity : AppCompatActivity() {
 
@@ -14,8 +15,7 @@ class WaitingRoomActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_waiting_room)
 
-        val btnJoin = findViewById<Button>(R.id.buttonJoinRoom)
-        btnJoin.setOnClickListener {
+        buttonJoinRoom.setOnClickListener {
             val intent = Intent(this, DashboardActivity::class.java)
             startActivity(intent)
         }

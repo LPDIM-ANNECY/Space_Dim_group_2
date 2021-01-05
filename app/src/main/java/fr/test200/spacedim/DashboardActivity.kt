@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.android.synthetic.main.activity_dashboard.*
 
 class DashboardActivity : AppCompatActivity() {
     private val tag = "Dashboard page"
@@ -13,9 +14,15 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_dashboard)
 
-        val btnWin = findViewById<Button>(R.id.winButton)
-        btnWin.setOnClickListener {
+        winButton.setOnClickListener {
             val intent = Intent(this, EndActivity::class.java)
+            intent.putExtra("winKey",true)
+            startActivity(intent)
+        }
+
+        looseButton.setOnClickListener {
+            val intent = Intent(this, EndActivity::class.java)
+            intent.putExtra("winKey",false)
             startActivity(intent)
         }
 
