@@ -13,6 +13,10 @@ import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
 
 class WaitingRoomFragment : Fragment() {
 
+    private lateinit var binding: WaitingRoomFragmentBinding
+
+    private lateinit var viewModel: WaitingRoomViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val binding: WaitingRoomFragmentBinding = DataBindingUtil.inflate(

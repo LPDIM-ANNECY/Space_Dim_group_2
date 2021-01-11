@@ -10,9 +10,15 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.databinding.LoginFragmentBinding
+import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
+import fr.test200.spacedim.waitingRoom.WaitingRoomViewModel
 
 
 class LoginFragment : Fragment() {
+
+    private lateinit var binding: LoginFragmentBinding
+
+    private lateinit var viewModel: LoginViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {

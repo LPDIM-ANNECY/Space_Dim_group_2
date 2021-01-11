@@ -9,15 +9,18 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
-import fr.test200.spacedim.databinding.EndLayoutFragmentBinding
+import fr.test200.spacedim.databinding.EndFragmentBinding
 
 
 class EndFragment : Fragment() {
 
+    private lateinit var viewModel: EndViewModel
+    private lateinit var viewModelFactory: EndViewModelFactory
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val binding: EndLayoutFragmentBinding = DataBindingUtil.inflate(
-                inflater, R.layout.end_layout_fragment, container, false)
+        val binding: EndFragmentBinding = DataBindingUtil.inflate(
+                inflater, R.layout.end_fragment, container, false)
 
         binding.endBtnRetry.setOnClickListener {
             findNavController().navigate(EndFragmentDirections.actionEndFragmentToWaitingRoomFragment())

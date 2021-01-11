@@ -1,8 +1,8 @@
-package fr.test200.spacedim.dashboard
+package fr.test200.spacedim.waitingRoom
 
 import androidx.lifecycle.ViewModel
 
-class DashboardViewModel : ViewModel() {
+class WaitingRoomViewModel : ViewModel() {
 
     init {}
 
