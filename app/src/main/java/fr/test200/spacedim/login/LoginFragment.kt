@@ -1,38 +1,32 @@
 package fr.test200.spacedim.login
 
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
-import fr.test200.spacedim.UserPost
-import fr.test200.spacedim.Utils
-import fr.test200.spacedim.waitingRoom.WaitingRoomFragment
-import kotlinx.android.synthetic.main.activity_login.*
+import fr.test200.spacedim.databinding.LoginFragmentBinding
 
 
-class LoginFragment : AppCompatActivity() {
+class LoginFragment : Fragment() {
 
-    private val tag = "Login page"
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        val binding: LoginFragmentBinding = DataBindingUtil.inflate(
+            inflater, R.layout.login_fragment, container, false)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
-
-        btn_lunch.setOnClickListener {
-            val intent = Intent(this, WaitingRoomFragment::class.java)
-            startActivity(intent)
+        binding.btnLunch.setOnClickListener {
+            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToWaitingRoomFragment())
         }
 
-        createEventRegisterUser(btn_register)
-
-        Log.i(tag, "onCreate")
+        return binding.root
     }
 
-    private fun createEventRegisterUser(btnRegister: Button) {
+    /*private fun createEventRegisterUser(btnRegister: Button) {
         val oldColors: ColorStateList = login_info_register.textColors // switch white (loading) to red (error)
 
         btnRegister.setOnClickListener {
@@ -72,7 +66,7 @@ class LoginFragment : AppCompatActivity() {
                     finish()
                 }
         )
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
@@ -98,11 +92,5 @@ class LoginFragment : AppCompatActivity() {
         super.onDestroy()
         Log.i(tag, "onDestroy")
     }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(tag, "restart")
-    }
-
 }
 

@@ -9,20 +9,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
-import fr.test200.spacedim.databinding.TitleFragmentBinding
+import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
 
 class WaitingRoomFragment : Fragment() {
-
-    private val tag = "Waiting activity"
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
         val binding: WaitingRoomFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.title_fragment, container, false)
+           inflater, R.layout.waiting_room_fragment, container, false)
 
-        binding.playGameButton.setOnClickListener {
-            findNavController().navigate(TitleFragmentDirections.actionTitleToGame())
+        binding.buttonJoinRoom.setOnClickListener {
+            findNavController().navigate(WaitingRoomFragmentDirections.actionWaitingRoomFragmentToDashboardFragment())
         }
+
         return binding.root
     }
 

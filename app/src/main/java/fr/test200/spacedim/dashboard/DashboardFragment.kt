@@ -1,33 +1,30 @@
 package fr.test200.spacedim.dashboard
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
-import fr.test200.spacedim.end.EndFragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
-import kotlinx.android.synthetic.main.activity_dashboard.*
+import fr.test200.spacedim.databinding.DashboardFragmentBinding
 
-class DashboardFragment : AppCompatActivity() {
-    private val tag = "Dashboard page"
+class DashboardFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_dashboard)
+    private lateinit var viewModel: DashboardViewModel
 
-        winButton.setOnClickListener {
-            val intent = Intent(this, EndFragment::class.java)
-            intent.putExtra("winKey",true)
-            startActivity(intent)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        val binding: DashboardFragmentBinding = DataBindingUtil.inflate(
+            inflater, R.layout.dashboard_fragment, container, false)
+
+        binding.winButton.setOnClickListener {
+            findNavController().navigate(DashboardFragmentDirections.actionDashboardFragmentToEndFragment())
         }
 
-        looseButton.setOnClickListener {
-            val intent = Intent(this, EndFragment::class.java)
-            intent.putExtra("winKey",false)
-            startActivity(intent)
-        }
-
-        Log.i(tag, "onCreate")
+        return binding.root
     }
 
     override fun onStart() {
@@ -53,10 +50,5 @@ class DashboardFragment : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i(tag, "onDestroy")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(tag, "restart")
     }
 }

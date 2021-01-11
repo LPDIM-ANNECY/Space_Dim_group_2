@@ -1,19 +1,32 @@
 package fr.test200.spacedim.end
 
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import androidx.appcompat.app.AppCompatActivity
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
-import fr.test200.spacedim.Utils.Companion.createDialog
-import fr.test200.spacedim.waitingRoom.WaitingRoomFragment
-import kotlinx.android.synthetic.main.activity_end_layout.*
+import fr.test200.spacedim.databinding.EndLayoutFragmentBinding
 
 
-class EndFragment : AppCompatActivity() {
-    private val tag = "End page"
+class EndFragment : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
+        val binding: EndLayoutFragmentBinding = DataBindingUtil.inflate(
+                inflater, R.layout.end_layout_fragment, container, false)
+
+        binding.endBtnRetry.setOnClickListener {
+            findNavController().navigate(EndFragmentDirections.actionEndFragmentToWaitingRoomFragment())
+        }
+
+        return binding.root
+    }
+
+    /*override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_end_layout)
 
@@ -42,7 +55,7 @@ class EndFragment : AppCompatActivity() {
                 Log.i(tag, "close")
             }
         )
-    }
+    }*/
 
     override fun onStart() {
         super.onStart()
@@ -67,10 +80,5 @@ class EndFragment : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.i(tag, "onDestroy")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(tag, "restart")
     }
 }
