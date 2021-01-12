@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.databinding.EndFragmentBinding
 
@@ -20,7 +21,7 @@ class EndFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
         val binding: EndFragmentBinding = DataBindingUtil.inflate(
                 inflater,
@@ -30,10 +31,9 @@ class EndFragment : Fragment() {
         )
 
         viewModelFactory = EndViewModelFactory(EndFragmentArgs.fromBundle(requireArguments()).score)
-        viewModel = ViewModelProvider(this, viewModelFactory)
-                .get(EndViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(EndViewModel::class.java)
+        // Data binding
         binding.endViewModel = viewModel
-
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
