@@ -1,13 +1,12 @@
 package fr.test200.spacedim.end
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import fr.test200.spacedim.R
 import fr.test200.spacedim.databinding.EndFragmentBinding
 
@@ -17,14 +16,25 @@ class EndFragment : Fragment() {
     private lateinit var viewModel: EndViewModel
     private lateinit var viewModelFactory: EndViewModelFactory
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-        val binding: EndFragmentBinding = DataBindingUtil.inflate(
-                inflater, R.layout.end_fragment, container, false)
+    override fun onCreateView(
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
+    ): View {
 
-        binding.endBtnRetry.setOnClickListener {
-            findNavController().navigate(EndFragmentDirections.actionEndFragmentToWaitingRoomFragment())
-        }
+        val binding: EndFragmentBinding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.end_fragment,
+                container,
+                false
+        )
+
+        viewModelFactory = EndViewModelFactory(EndFragmentArgs.fromBundle(requireArguments()).score)
+        viewModel = ViewModelProvider(this, viewModelFactory)
+                .get(EndViewModel::class.java)
+        binding.endViewModel = viewModel
+
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
@@ -59,29 +69,4 @@ class EndFragment : Fragment() {
             }
         )
     }*/
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(tag, "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i(tag, "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(tag, "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(tag, "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(tag, "onDestroy")
-    }
 }

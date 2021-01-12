@@ -1,17 +1,14 @@
 package fr.test200.spacedim.login
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.ViewModelProvider
 import fr.test200.spacedim.R
 import fr.test200.spacedim.databinding.LoginFragmentBinding
-import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
-import fr.test200.spacedim.waitingRoom.WaitingRoomViewModel
 
 
 class LoginFragment : Fragment() {
@@ -22,12 +19,18 @@ class LoginFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
-        val binding: LoginFragmentBinding = DataBindingUtil.inflate(
-            inflater, R.layout.login_fragment, container, false)
 
-        binding.btnLunch.setOnClickListener {
-            findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToWaitingRoomFragment())
-        }
+        binding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.login_fragment,
+                container,
+                false
+        )
+
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+        binding.loginViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
     }
@@ -73,30 +76,5 @@ class LoginFragment : Fragment() {
                 }
         )
     }*/
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(tag, "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i(tag, "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(tag, "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(tag, "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(tag, "onDestroy")
-    }
 }
 
