@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -54,6 +55,9 @@ class WaitingRoomFragment : Fragment() {
         viewModel.eventGoDashBoard.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
             if (isFinished) changeViewToDashBoard()
         })
+
+        // event back pressed
+        requireActivity().onBackPressedDispatcher.addCallback(this) {}
 
         return binding.root
     }
