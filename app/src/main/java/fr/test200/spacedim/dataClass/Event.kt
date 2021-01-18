@@ -1,11 +1,13 @@
 package fr.test200.spacedim.dataClass
 
+import com.squareup.moshi.Json
+
 enum class EventType() {
     GAME_STARTED(), GAME_OVER(), ERROR(), READY(), NEXT_ACTION(),
     NEXT_LEVEL(), WAITING_FOR_PLAYER(), PLAYER_ACTION()
 }
 
-sealed class Event(val type: EventType) {
+sealed class Event(@Json(name = "type") val eventType: EventType) {
     data class NextAction(val action: Action) : Event(EventType.NEXT_ACTION)
     data class GameStarted(val uiElementList: List<UIElement>): Event(EventType.GAME_STARTED)
     data class GameOver(val score: Int, val win: Boolean, val level: Int): Event(EventType.GAME_OVER)

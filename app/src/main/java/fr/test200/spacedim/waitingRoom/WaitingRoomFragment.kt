@@ -1,6 +1,7 @@
 package fr.test200.spacedim.waitingRoom
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +13,12 @@ import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
 import fr.test200.spacedim.dashboard.DashboardFragmentDirections
 import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
+import fr.test200.spacedim.network.Config
+import fr.test200.spacedim.network.WSListener
+import kotlinx.android.synthetic.main.waiting_room_fragment.*
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import java.util.concurrent.TimeUnit
 
 class WaitingRoomFragment : Fragment() {
 
@@ -34,6 +41,16 @@ class WaitingRoomFragment : Fragment() {
         binding.waitingRoomViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        val client = OkHttpClient.Builder()
+            .readTimeout(3, TimeUnit.SECONDS)
+            .build()
+        val request = Request.Builder()
+            .url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/testNathan/101")
+            .build()
+
+        val listener = WSListener()
+        val ws = client.newWebSocket(request, listener)
+
         viewModel.eventGoDashBoard.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
             if (isFinished) changeViewToDashBoard()
         })
@@ -46,4 +63,5 @@ class WaitingRoomFragment : Fragment() {
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.onGoDashboardComplete()
     }
+
 }
