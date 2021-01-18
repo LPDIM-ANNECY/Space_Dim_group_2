@@ -1,10 +1,13 @@
 package fr.test200.spacedim.dashboard
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Switch
+import android.widget.TableRow
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
@@ -14,6 +17,7 @@ import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
 import fr.test200.spacedim.end.EndFragmentDirections
+import kotlinx.android.synthetic.main.dashboard_fragment.*
 
 class DashboardFragment : Fragment() {
 
@@ -36,9 +40,33 @@ class DashboardFragment : Fragment() {
         binding.dashboardViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        viewModel.moduleNumber.observe(viewLifecycleOwner, Observer { newModuleNumber ->
-            for (indexModule in 1..newModuleNumber) {
-                val button = Button(this.context)
+        //création des boutons
+        viewModel.moduleTypeList.observe(viewLifecycleOwner, Observer { moduleTypeList ->
+            val element: Button = Button(this.context)
+            val numberOfRow: Int = (moduleTypeList.size / 2)
+            for (rowIndex in 0..numberOfRow) {
+                val row: TableRow = TableRow(this.context)
+
+                for ((index, type) in moduleTypeList.withIndex()) {
+                    if(index == rowIndex && index < rowIndex + 1 ) {
+                        /*when (type) {
+                            "SWITCH" -> {
+                                element = Button(this.context)
+                            }
+                            "BUTTON" -> {
+                                element = Switch(this.context)
+                            }
+                            else -> {
+                                print("don't find type")
+                            }
+                        }*/
+
+                        element.text = "tric"
+                        row.addView(element)
+                    }
+                }
+
+                binding.tabletruc.addView(row)
             }
         })
 
