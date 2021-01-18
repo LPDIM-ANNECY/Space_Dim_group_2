@@ -1,6 +1,5 @@
 package fr.test200.spacedim.login
 
-import android.media.AudioManager
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,7 +9,6 @@ import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
@@ -18,7 +16,10 @@ import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.Utils.Companion.createDialog
 import fr.test200.spacedim.Utils.Companion.setTimeout
 import fr.test200.spacedim.databinding.LoginFragmentBinding
-
+import fr.test200.spacedim.network.Config
+import fr.test200.spacedim.network.WSListener
+import okhttp3.*
+import java.util.concurrent.TimeUnit
 
 class LoginFragment : Fragment() {
 
@@ -70,7 +71,7 @@ class LoginFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        soundAmbiance?.pause()
+        soundAmbiance?.reset()
     }
 
     override fun onResume() {
@@ -78,8 +79,7 @@ class LoginFragment : Fragment() {
         soundAmbiance?.start()
     }
 
-    private fun onBackPressed()
-    {
+    private fun onBackPressed() {
         createDialog(
             this.requireActivity(),
             resources.getString(R.string.login_title_leave),
@@ -123,22 +123,6 @@ class LoginFragment : Fragment() {
     */
 
 
-
-    /*
-    fun onBackPressed() {
-
-        activity?.let {
-            createDialog(
-                it,
-                resources.getString(R.string.login_title_leave),
-                resources.getString(R.string.login_message_leave),
-                true,
-                fun() {
-                    activity?.finish()
-                }
-            )
-        }
-
-    }*/
 }
+
 
