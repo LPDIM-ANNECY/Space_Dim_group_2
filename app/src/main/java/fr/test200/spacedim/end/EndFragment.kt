@@ -20,7 +20,7 @@ class EndFragment : Fragment() {
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
-    ): View {
+    ): View? {
 
         val binding: EndFragmentBinding = DataBindingUtil.inflate(
                 inflater,
@@ -30,10 +30,9 @@ class EndFragment : Fragment() {
         )
 
         viewModelFactory = EndViewModelFactory(EndFragmentArgs.fromBundle(requireArguments()).score)
-        viewModel = ViewModelProvider(this, viewModelFactory)
-                .get(EndViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(EndViewModel::class.java)
+        // Data binding
         binding.endViewModel = viewModel
-
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root

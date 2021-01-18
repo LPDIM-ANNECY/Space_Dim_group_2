@@ -25,11 +25,11 @@ class Utils {
             return alertDialog.setTitle(title)
                 .setMessage(message) // Specifying a listener allows you to take an action before dismissing the dialog.
                 // The dialog is automatically dismissed when a dialog button is clicked.
-                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { _, _ ->
+                .setPositiveButton(android.R.string.ok, DialogInterface.OnClickListener { _, _ ->
                     onQuit()
                     exitProcess(0)
                 }) // A null listener allows the button to dismiss the dialog and take no further action.
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.cancel, null)
                 .show()
         }
 
@@ -40,6 +40,17 @@ class Utils {
                 activity.currentFocus!!.applicationWindowToken,
                 0
             )
+        }
+
+        fun setTimeout(runnable: Runnable, delay: Int) {
+            Thread {
+                try {
+                    Thread.sleep(delay.toLong())
+                    runnable.run()
+                } catch (e: Exception) {
+                    System.err.println(e)
+                }
+            }.start()
         }
     }
 
