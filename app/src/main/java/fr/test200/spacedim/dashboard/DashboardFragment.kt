@@ -19,6 +19,10 @@ import fr.test200.spacedim.databinding.DashboardFragmentBinding
 import fr.test200.spacedim.end.EndFragmentDirections
 import kotlinx.android.synthetic.main.dashboard_fragment.*
 
+enum class moduleTypes {
+    BUTTON, SWITCH
+}
+
 class DashboardFragment : Fragment() {
 
     private lateinit var binding: DashboardFragmentBinding
@@ -40,16 +44,34 @@ class DashboardFragment : Fragment() {
         binding.dashboardViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        //création des boutons
-        viewModel.moduleTypeList.observe(viewLifecycleOwner, Observer { moduleTypeList ->
-            val element: Button = Button(this.context)
-            val numberOfRow: Int = (moduleTypeList.size / 2)
-            for (rowIndex in 0..numberOfRow) {
-                val row: TableRow = TableRow(this.context)
+        val moduleTypeList = mutableListOf<String>()
+        val moduleMaxNumber = 9;
+        val moduleNumber = (4..moduleMaxNumber).random()
 
-                for ((index, type) in moduleTypeList.withIndex()) {
-                    if(index == rowIndex && index < rowIndex + 1 ) {
-                        /*when (type) {
+        for (moduleIndex in 0..moduleNumber) {
+            val moduleType = moduleTypes.values()[(moduleTypes.values().indices).random()]
+            moduleTypeList.add(moduleType.toString())
+        }
+
+        //création des boutons
+        makeList(moduleTypeList)
+
+        viewModel.eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
+            if (isFinished) gameFinishedWin()
+        })
+
+        return binding.root
+    }
+
+    private fun makeList(moduleTypeList: MutableList<String>) {
+        val numberOfRow: Int = (moduleTypeList.size / 2)
+        var countButton = 0
+        for (rowIndex in 0..numberOfRow) {
+            val row = TableRow(this.context)
+            for ((index, type) in moduleTypeList.withIndex()) {
+                if (countButton < moduleTypeList.size && (index == rowIndex || index == rowIndex + 1)) {
+                    val element: Button = Button(this.context)
+                    /*when (type) {
                             "SWITCH" -> {
                                 element = Button(this.context)
                             }
@@ -61,20 +83,14 @@ class DashboardFragment : Fragment() {
                             }
                         }*/
 
-                        element.text = "tric"
-                        row.addView(element)
-                    }
+                    element.text = "tric"
+                    row.addView(element)
+                    countButton ++
                 }
-
-                binding.tabletruc.addView(row)
             }
-        })
 
-        viewModel.eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
-            if (isFinished) gameFinishedWin()
-        })
-
-        return binding.root
+            binding.tabletruc.addView(row)
+        }
     }
 
 
@@ -84,5 +100,4 @@ class DashboardFragment : Fragment() {
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.onGameFinishedComplete()
     }
-
 }

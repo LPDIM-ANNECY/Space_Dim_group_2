@@ -11,18 +11,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-enum class moduleTypes {
-    BUTTON, SWITCH
-}
-
 class DashboardViewModel : ViewModel() {
 
-    private val moduleMaxNumber: Int = 9
     private val scoreTest: Int = 42
-
-    private val _moduleNumber = MutableLiveData<Int>()
-    val moduleNumber: LiveData<Int>
-        get() = _moduleNumber
 
     private val _score = MutableLiveData<Int>()
     val score: LiveData<Int>
@@ -37,12 +28,7 @@ class DashboardViewModel : ViewModel() {
         get() = _eventGameFinished
 
     init {
-        _moduleNumber.value = (4..moduleMaxNumber).random()
         _score.value = scoreTest
-        for (moduleIndex in 0.._moduleNumber.value!!) {
-            val moduleType = moduleTypes.values()[(moduleTypes.values().indices).random()]
-            _moduleTypeList.value?.add(moduleType.toString())
-        }
     }
 
     fun onGameFinish() {
