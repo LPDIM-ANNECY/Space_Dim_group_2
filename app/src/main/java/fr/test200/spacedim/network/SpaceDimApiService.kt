@@ -9,7 +9,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.http.*
 
-private const val BASE_URL = "https://spacedim.async-agency.com/api/"
+private const val BASE_URL = "https://spacedim.async-agency.com"
 
 private val moshi = Moshi.Builder()
         .add(KotlinJsonAdapterFactory())
@@ -22,15 +22,15 @@ private val retrofit = Retrofit.Builder()
 
 interface SpaceDimApiService {
 
-    @GET("users")
-    suspend fun getUsersList(): Response<User>
+    @GET("api/users")
+    suspend fun getUsersList(): Response<List<User>>
 
-    @GET("user/find/{name}")
-    suspend fun getUserByName(@Path("name") username: String): Response<List<User>>
+    @GET("api/user/find/{name}")
+    suspend fun getUserByName(@Path("name") username: String): Response<User>
 
     // TODO change user in body
     @Headers("Content-Type:application/json")
-    @POST("user/register")
+    @POST("api/user/register")
     suspend fun registerUser(@Body user: UserPost) : Response<User>?
 
 }

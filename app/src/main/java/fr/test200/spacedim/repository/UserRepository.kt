@@ -9,4 +9,12 @@ class UserRepository {
     val currentUser: LiveData<User>
         get() = _currentUser
 
+    fun loginUser(user: User?){
+        _currentUser.postValue(user)
+    }
+
+    fun registerUser(user: User?){
+        _currentUser.postValue(user)
+    }
+
 }
