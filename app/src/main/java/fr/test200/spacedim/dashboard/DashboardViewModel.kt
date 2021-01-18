@@ -17,18 +17,37 @@ enum class moduleTypes {
 class DashboardViewModel : ViewModel() {
 
     private val moduleMaxNumber: Int = 9
+    private val scoreTest: Int = 42
+
     private val _moduleNumber = MutableLiveData<Int>()
     val moduleNumber: LiveData<Int>
         get() = _moduleNumber
+
+    private val _score = MutableLiveData<Int>()
+    val score: LiveData<Int>
+        get() = _score
+
+    private val _eventGameFinished = MutableLiveData<Boolean>()
+    val eventGameFinished: LiveData<Boolean>
+        get() = _eventGameFinished
 
     //private val moduleList = List(moduleNumber) {}
 
     init {
         _moduleNumber.value = (4..moduleMaxNumber).random()
+        _score.value = scoreTest
     }
 
     fun onSkip() {
         _moduleNumber.value = (4..moduleMaxNumber).random()
+    }
+
+    fun onGameFinish() {
+        _eventGameFinished.value = true
+    }
+
+    fun onGameFinishedComplete() {
+        _eventGameFinished.value = false
     }
 
     /**

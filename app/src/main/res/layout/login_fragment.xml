@@ -79,7 +79,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:text="@string/btn_lunch"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:onClick="@{() -> loginViewModel.onGo() }"/>
 
         </LinearLayout>
 

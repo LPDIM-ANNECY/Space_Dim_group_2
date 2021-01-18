@@ -6,8 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
+import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.databinding.LoginFragmentBinding
 
 
@@ -16,6 +20,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: LoginFragmentBinding
 
     private lateinit var viewModel: LoginViewModel
+    private lateinit var viewModelFactory: LoginViewModelFactory
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -26,11 +31,19 @@ class LoginFragment : Fragment() {
                 container,
                 false
         )
-
+        viewModelFactory = LoginViewModelFactory(SpaceDim.userRepository)
         viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
         binding.loginViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+
+        // Navigates back to game when button is pressed
+        viewModel.eventGo.observe(viewLifecycleOwner, Observer { go ->
+            if (go) {
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToWaitingRoomFragment())
+                viewModel.onGoComplete()
+            }
+        })
 
         return binding.root
     }

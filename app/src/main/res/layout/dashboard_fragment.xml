@@ -58,7 +58,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
-                    android:text="@string/dashboard_loose" />
+                    android:text="@string/dashboard_loose"
+                    android:onClick="@{() -> dashboardViewModel.onGameFinish()}"/>
 
                 <Button
                     android:id="@+id/button"
