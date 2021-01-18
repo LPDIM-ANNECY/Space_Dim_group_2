@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_navigation"
+    app:startDestination="@id/login_destination">
+    <fragment
+        android:id="@+id/login_destination"
+        android:name="fr.test200.spacedim.login.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment">
+        <action
+            android:id="@+id/action_loginFragment_to_waitingRoomFragment"
+            app:destination="@id/waiting_room_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/waiting_room_destination"
+        android:name="fr.test200.spacedim.waitingRoom.WaitingRoomFragment"
+        android:label="waitin_room_fragment"
+        tools:layout="@layout/waiting_room_fragment">
+        <action
+            android:id="@+id/action_waitingRoomFragment_to_dashboardFragment"
+            app:destination="@id/dashboard_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/dashboard_destination"
+        android:name="fr.test200.spacedim.dashboard.DashboardFragment"
+        android:label="dashboard_fragment"
+        tools:layout="@layout/dashboard_fragment">
+        <action
+            android:id="@+id/action_dashboardFragment_to_endFragment"
+            app:destination="@id/end_destination" />
+    </fragment>
+    <fragment
+        android:id="@+id/end_destination"
+        android:name="fr.test200.spacedim.end.EndFragment"
+        android:label="end_fragment"
+        tools:layout="@layout/end_fragment">
+        <action
+            android:id="@+id/action_endFragment_to_waitingRoomFragment"
+            app:destination="@id/waiting_room_destination" />
+        <argument
+            android:name="score"
+            android:defaultValue="0"
+            app:argType="integer" />
+    </fragment>
+</navigation>

@@ -1,35 +1,41 @@
-package fr.test200.spacedim
+package fr.test200.spacedim.login
 
-import android.content.Intent
-import android.content.res.ColorStateList
 import android.os.Bundle
-import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_login.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import fr.test200.spacedim.R
+import fr.test200.spacedim.databinding.LoginFragmentBinding
 
 
-class LoginActivity : AppCompatActivity() {
+class LoginFragment : Fragment() {
 
-    private val tag = "Login page"
+    private lateinit var binding: LoginFragmentBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
+    private lateinit var viewModel: LoginViewModel
 
-        btn_lunch.setOnClickListener {
-            val intent = Intent(this, WaitingRoomActivity::class.java)
-            startActivity(intent)
-        }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View {
 
-        createEventRegisterUser(btn_register)
+        binding = DataBindingUtil.inflate(
+                inflater,
+                R.layout.login_fragment,
+                container,
+                false
+        )
 
-        Log.i(tag, "onCreate")
+        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+
+        binding.loginViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        return binding.root
     }
 
-    private fun createEventRegisterUser(btnRegister: Button) {
+    /*private fun createEventRegisterUser(btnRegister: Button) {
         val oldColors: ColorStateList = login_info_register.textColors // switch white (loading) to red (error)
 
         btnRegister.setOnClickListener {
@@ -61,45 +67,14 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         Utils.createDialog(
-            this,
-            resources.getString(R.string.login_title_leave),
-            resources.getString(R.string.login_message_leave),
-            true,
-            fun () {
-                finish()
-            }
+                this,
+                resources.getString(R.string.login_title_leave),
+                resources.getString(R.string.login_message_leave),
+                true,
+                fun() {
+                    finish()
+                }
         )
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(tag, "onStart")
-    }
-
-    override fun onResume() {
-        super.onResume()
-        Log.i(tag, "onResume")
-    }
-
-    override fun onPause() {
-        super.onPause()
-        Log.i(tag, "onPause")
-    }
-
-    override fun onStop() {
-        super.onStop()
-        Log.i(tag, "onStop")
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        Log.i(tag, "onDestroy")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(tag, "restart")
-    }
-
+    }*/
 }
 

@@ -12,18 +12,12 @@
         android:supportsRtl="true"
         android:screenOrientation="portrait"
         android:theme="@style/Theme.SpaceDIM">
-        <activity android:name=".WaitingRoomActivity"></activity>
-        <activity android:name=".DashboardActivity"></activity>
-        <activity android:name=".EndActivity"></activity>
-        <activity
-            android:name=".LoginActivity"
+        <activity android:name=".MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>
-
 </manifest>
