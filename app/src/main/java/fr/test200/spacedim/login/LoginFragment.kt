@@ -32,7 +32,7 @@ class LoginFragment : Fragment() {
                 false
         )
         viewModelFactory = LoginViewModelFactory(SpaceDim.userRepository)
-        viewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
         binding.loginViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

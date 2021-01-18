@@ -11,16 +11,16 @@ import fr.test200.spacedim.repository.UserRepository
 class LoginViewModel(userRepository: UserRepository) : ViewModel() {
 
     // current User
-    private val _currentUser = MutableLiveData<User>()
     val currentUser: LiveData<User>
-        get() = _currentUser
 
     // go to other
     private val _eventGo = MutableLiveData<Boolean>()
     val eventGo: LiveData<Boolean>
         get() = _eventGo
 
-    init {}
+    init {
+        currentUser = userRepository.currentUser
+    }
 
     /**
      * Callback called when the ViewModel is destroyed
