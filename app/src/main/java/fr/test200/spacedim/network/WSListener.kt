@@ -1,14 +1,22 @@
 package fr.test200.spacedim.network
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import fr.test200.spacedim.GameEventTools
 import fr.test200.spacedim.dataClass.Event
+import fr.test200.spacedim.dataClass.User
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
 
 class WSListener : WebSocketListener() {
+
+    // list user
+    var webSocketState = MutableLiveData<Event>()
+
+
     override fun onOpen(webSocket: WebSocket, response: Response) {
         Log.i("log", "onOpen")
         println("onOpen")
@@ -49,6 +57,10 @@ class WSListener : WebSocketListener() {
 
     private fun output(txt: String) {
         Log.v("WS", txt)
+    }
+
+    private fun updateWebSocketState(event: Event){
+
     }
 
 }

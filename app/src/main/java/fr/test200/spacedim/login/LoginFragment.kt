@@ -10,17 +10,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.Utils.Companion.createDialog
 import fr.test200.spacedim.Utils.Companion.setTimeout
 import fr.test200.spacedim.databinding.LoginFragmentBinding
-import fr.test200.spacedim.network.Config
-import fr.test200.spacedim.network.WSListener
-import okhttp3.*
-import java.util.concurrent.TimeUnit
+
 
 class LoginFragment : Fragment() {
 

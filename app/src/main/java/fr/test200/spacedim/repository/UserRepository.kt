@@ -16,5 +16,4 @@ class UserRepository {
     fun registerUser(user: User?){
         _currentUser.postValue(user)
     }
-
 }

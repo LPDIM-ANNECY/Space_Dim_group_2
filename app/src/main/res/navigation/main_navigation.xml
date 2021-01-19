@@ -12,6 +12,9 @@
         <action
             android:id="@+id/action_loginFragment_to_waitingRoomFragment"
             app:destination="@id/waiting_room_destination" />
+        <argument
+            android:name="userRepository"
+            app:argType="UserRepository" />
     </fragment>
     <fragment
         android:id="@+id/waiting_room_destination"
