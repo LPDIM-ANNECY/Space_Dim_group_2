@@ -9,6 +9,7 @@ import fr.test200.spacedim.dataClass.User
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import okhttp3.Request
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
@@ -65,6 +66,10 @@ class WSListener : WebSocketListener() {
     // update etat du web socket
     private fun updateWebSocketState(event: Event){
         webSocketState.postValue(event)
+    }
+
+    fun joinRoom(name: String, user: User){
+        val request = Request.Builder().url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/${name}/${user.id}")
     }
 
 }
