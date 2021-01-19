@@ -1,14 +1,16 @@
 package fr.test200.spacedim.dashboard
 
+import android.animation.ObjectAnimator
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.DisplayMetrics
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Switch
-import android.widget.TableRow
-import android.widget.Toast
+import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -48,13 +50,17 @@ class DashboardFragment : Fragment() {
         val moduleMaxNumber = 9;
         val moduleNumber = (4..moduleMaxNumber).random()
 
+        ObjectAnimator.ofInt(binding.progressBar, "progress", 100)
+                .setDuration(10000)
+                .start();
+
         for (moduleIndex in 0..moduleNumber) {
             val moduleType = moduleTypes.values()[(moduleTypes.values().indices).random()]
             moduleTypeList.add(moduleType.toString())
         }
 
         //création des boutons
-        makeList(moduleTypeList)
+        makeList(moduleTypeList, moduleNumber)
 
         viewModel.eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
             if (isFinished) gameFinishedWin()
@@ -63,14 +69,15 @@ class DashboardFragment : Fragment() {
         return binding.root
     }
 
-    private fun makeList(moduleTypeList: MutableList<String>) {
+    private fun makeList(moduleTypeList: MutableList<String>, moduleNumber: Int) {
         val numberOfRow: Int = (moduleTypeList.size / 2)
         var countButton = 0
         for (rowIndex in 0..numberOfRow) {
             val row = TableRow(this.context)
+            row.gravity = 17
             for ((index, type) in moduleTypeList.withIndex()) {
-                if (countButton < moduleTypeList.size && (index == rowIndex || index == rowIndex + 1)) {
-                    val element: Button = Button(this.context)
+                if (countButton < moduleNumber && (index == rowIndex || index == rowIndex + 1)) {
+                    val element = Button(this.context)
                     /*when (type) {
                             "SWITCH" -> {
                                 element = Button(this.context)
@@ -84,11 +91,12 @@ class DashboardFragment : Fragment() {
                         }*/
 
                     element.text = "tric"
+                    val params = TableRow.LayoutParams( 500, 145 ).also { it.setMargins(25, 25, 25, 25) }
+                    element.layoutParams = params
                     row.addView(element)
                     countButton ++
                 }
             }
-
             binding.tabletruc.addView(row)
         }
     }

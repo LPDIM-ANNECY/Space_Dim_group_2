@@ -37,7 +37,7 @@
                 android:layout_width="301dp"
                 android:layout_height="87dp"
                 android:max="100"
-                android:progress="40"
+                android:progress="0"
                 android:progressTint="@color/primary_light_color"
                 android:scaleY="5" />
 
@@ -85,5 +85,6 @@
             android:layout_width="match_parent"
             android:layout_height="400dp"
             app:layout_constraintBottom_toBottomOf="parent" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
