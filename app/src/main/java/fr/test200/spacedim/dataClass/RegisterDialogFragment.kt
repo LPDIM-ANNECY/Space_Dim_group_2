@@ -1,3 +1,5 @@
+package fr.test200.spacedim.dataClass
+
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
