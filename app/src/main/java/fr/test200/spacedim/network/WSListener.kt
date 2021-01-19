@@ -28,12 +28,12 @@ class WSListener : WebSocketListener() {
 
         when(GameEventTools.spaceEventParser.fromJson(text)!!::class.java) {
             Event.WaitingForPlayer::class.java -> {
-                val userList = GameEventTools.spaceEventParser.fromJson(text) as Event.WaitingForPlayer
-
-                for(user in userList.userList) {
+                val webSocketState = GameEventTools.spaceEventParser.fromJson(text) as Event.WaitingForPlayer
+                updateWebSocketState(webSocketState)
+                /*for(user in userList.userList) {
                     Log.i("Name player :", user.name)
                 }
-                Log.i("Nombre de player", userList.userList.size.toString())
+                Log.i("Nombre de player", userList.userList.size.toString())*/
             }
         }
 
@@ -60,7 +60,7 @@ class WSListener : WebSocketListener() {
     }
 
     private fun updateWebSocketState(event: Event){
-
+        webSocketState.value = event
     }
 
 }
