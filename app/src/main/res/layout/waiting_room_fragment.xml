@@ -37,6 +37,7 @@
 
 
         <TextView
+            android:id="@+id/vaisseau_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/waitingRoom_no_ship_join"

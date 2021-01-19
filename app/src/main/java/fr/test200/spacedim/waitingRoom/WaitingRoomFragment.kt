@@ -1,10 +1,9 @@
 package fr.test200.spacedim.waitingRoom
 
-import RegisterDialogFragment
-import android.app.AlertDialog
+import fr.test200.spacedim.dataClass.RegisterDialogFragment
 import android.media.MediaPlayer
-import android.opengl.Visibility
 import android.os.Bundle
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,14 +16,9 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
-import fr.test200.spacedim.dashboard.DashboardFragmentDirections
 import fr.test200.spacedim.dataClass.Event
 import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
-import fr.test200.spacedim.login.LoginFragmentDirections
-import fr.test200.spacedim.network.Config
 import fr.test200.spacedim.network.WSListener
-import okhttp3.OkHttpClient
-import okhttp3.Request
 import java.util.concurrent.TimeUnit
 
 class WaitingRoomFragment : Fragment() {
@@ -35,7 +29,7 @@ class WaitingRoomFragment : Fragment() {
         WaitingRoomViewModelFactory(SpaceDim.userRepository, WSListener())
     }
 
-    private var dialog: AlertDialog? = null
+    private var dialog: RegisterDialogFragment? = null
 
     private var soundAmbiance: MediaPlayer? = null
 
@@ -62,12 +56,8 @@ class WaitingRoomFragment : Fragment() {
         })
 
         viewModel.eventDisplayPopupRoomName.observe(viewLifecycleOwner, Observer<Boolean> {
-            if (it) showDialog()
-        })
-
-        viewModel.eventIsInRoom.observe(viewLifecycleOwner, Observer<Boolean> { isInRoom ->
-            if(isInRoom) {
-                binding.buttonJoinRoom.visibility = View.GONE
+            if (it) {
+                showDialog()
             }
         })
 
@@ -80,8 +70,6 @@ class WaitingRoomFragment : Fragment() {
         viewModel.eventSwitchActivity.observe(viewLifecycleOwner, Observer<Boolean> {
             findNavController().navigate(WaitingRoomFragmentDirections.actionWaitingRoomFragmentToDashboardFragment())
         })
-
-
 
         /*
         viewModel.eventValidateRoomName.observe(viewLifecycleOwner, Observer<Boolean> {
@@ -100,7 +88,8 @@ class WaitingRoomFragment : Fragment() {
     private fun updateWebSocketState(event: Event?) {
         when(event){
             is Event.WaitingForPlayer -> {
-
+                binding.vaisseauName.text = Html.fromHtml("Vaisseau : <b>${viewModel.vaisseauName}</b>", Html.FROM_HTML_MODE_COMPACT)
+                binding.buttonJoinRoom.visibility = View.GONE
             }
         }
     }
@@ -113,11 +102,16 @@ class WaitingRoomFragment : Fragment() {
     }
     // Usage
     private fun showDialog() {
-        val dialog = RegisterDialogFragment("Nom du vaisseau", "", "Go !", "Annuler")
-        dialog.onPositiveClick = {
+        if(dialog === null) {
+            dialog = RegisterDialogFragment("Nom du vaisseau", "", "Go !", "Annuler")
+        }
+
+        dialog?.onPositiveClick = {
             viewModel.joinRoom(it)
         }
-        activity?.supportFragmentManager?.let { dialog.show(it, "RegisterDialog") }
-
+        activity?.supportFragmentManager?.let {
+            dialog?.show(it, "RegisterDialog")
+            println("isHidden " + dialog?.isHidden)
+        }
     }
 }
