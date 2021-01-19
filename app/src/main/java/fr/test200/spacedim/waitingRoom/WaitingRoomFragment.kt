@@ -1,5 +1,6 @@
 package fr.test200.spacedim.waitingRoom
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -18,6 +19,8 @@ class WaitingRoomFragment : Fragment() {
     private lateinit var binding: WaitingRoomFragmentBinding
 
     private lateinit var viewModel: WaitingRoomViewModel
+
+    private var soundAmbiance: MediaPlayer? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -42,6 +45,7 @@ class WaitingRoomFragment : Fragment() {
     }
 
     fun changeViewToDashBoard() {
+        MediaPlayer.create(this.activity, R.raw.decol).start()
         val action = WaitingRoomFragmentDirections.actionWaitingRoomFragmentToDashboardFragment()
         NavHostFragment.findNavController(this).navigate(action)
         viewModel.onGoDashboardComplete()

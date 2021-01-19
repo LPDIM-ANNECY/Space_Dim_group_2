@@ -3,6 +3,7 @@ package fr.test200.spacedim.dashboard
 import android.animation.ObjectAnimator
 import android.content.Context
 import android.content.res.Resources
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.DisplayMetrics
 import android.util.Log
@@ -17,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
+import fr.test200.spacedim.Utils
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
 import fr.test200.spacedim.end.EndFragmentDirections
 import kotlinx.android.synthetic.main.dashboard_fragment.*
@@ -31,6 +33,9 @@ class DashboardFragment : Fragment() {
 
     private lateinit var viewModel: DashboardViewModel
 
+    private var soundAmbiance = MediaPlayer.create(this.activity, R.raw.ambiance_dashboard)
+    private var tictac = MediaPlayer.create(this.activity, R.raw.tictac)
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
 
@@ -42,6 +47,11 @@ class DashboardFragment : Fragment() {
         )
 
         viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
+
+        soundAmbiance?.isLooping = true
+        tictac?.isLooping = true
+        soundAmbiance.start()
+        tictac.start()
 
         binding.dashboardViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -69,6 +79,18 @@ class DashboardFragment : Fragment() {
         return binding.root
     }
 
+    override fun onPause() {
+        super.onPause()
+        soundAmbiance?.pause()
+        tictac?.pause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        soundAmbiance?.start()
+        tictac?.start()
+    }
+
     private fun makeList(moduleTypeList: MutableList<String>, moduleNumber: Int) {
         val numberOfRow: Int = (moduleTypeList.size / 2)
         var countButton = 0
@@ -89,6 +111,12 @@ class DashboardFragment : Fragment() {
                                 print("don't find type")
                             }
                         }*/
+
+
+
+                    element.setOnClickListener(View.OnClickListener {
+                        MediaPlayer.create(this.activity, R.raw.button_click).start()
+                    })
 
                     element.text = "tric"
                     val params = TableRow.LayoutParams( 500, 145 ).also { it.setMargins(25, 25, 25, 25) }
