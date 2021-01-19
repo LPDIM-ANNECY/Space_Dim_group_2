@@ -34,9 +34,14 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
     val httpResponse = MediatorLiveData<HTTPState>()
 
 
+    private val _eventTryConnection = MutableLiveData<Boolean>()
+    val eventTryConnection: LiveData<Boolean>
+        get() = _eventTryConnection
+
+
     init {
         editTextName.name = ""
-
+        _eventTryConnection.value = false
         //
         httpResponse.addSource(userRepository.currentUser){
             httpResponse.value = HTTPState.LoginSuccessful(it)
@@ -50,6 +55,7 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
     }
 
     fun loginUser(userName: String){
+        _eventTryConnection.value = true
         httpResponse.value = HTTPState.Loading
         viewModelScope.launch {
             val isLogin = SpaceDimApi.userService.getUserByName(userName)
@@ -72,6 +78,7 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
     }
 
     fun registerUser(userName: String){
+        _eventTryConnection.value = true
         viewModelScope.launch {
             val isRegister = SpaceDimApi.userService.registerUser(UserPost(userName))
             isRegister?.let {

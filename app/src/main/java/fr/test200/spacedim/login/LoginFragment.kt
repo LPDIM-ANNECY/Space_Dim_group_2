@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.Utils.Companion.createDialog
+import fr.test200.spacedim.Utils.Companion.hideKeyboard
 import fr.test200.spacedim.Utils.Companion.setTimeout
 import fr.test200.spacedim.databinding.LoginFragmentBinding
 
@@ -51,6 +52,10 @@ class LoginFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             onBackPressed()
         }
+
+        viewModel.eventTryConnection.observe(viewLifecycleOwner, Observer<Boolean>{
+            if(it) hideKeyboard(requireActivity())
+        })
 
         viewModel.httpResponse.observe(viewLifecycleOwner, Observer {
             httpStateUi(it)
