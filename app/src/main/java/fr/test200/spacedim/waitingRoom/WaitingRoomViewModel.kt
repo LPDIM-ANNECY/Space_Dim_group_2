@@ -56,7 +56,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     }
 
     fun joinRoom(name: String){
-
+        userRepository.currentUser.value?.let { webSocket.joinRoom(name, it) }
     }
 
     fun onDisplayPopupRoomName() {
