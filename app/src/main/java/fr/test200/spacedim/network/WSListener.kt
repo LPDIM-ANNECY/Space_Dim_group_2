@@ -6,10 +6,14 @@ import androidx.lifecycle.MutableLiveData
 import fr.test200.spacedim.GameEventTools
 import fr.test200.spacedim.dataClass.Event
 import fr.test200.spacedim.dataClass.User
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.launch
 import okhttp3.Response
 import okhttp3.WebSocket
 import okhttp3.WebSocketListener
 import okio.ByteString
+import kotlin.coroutines.suspendCoroutine
 
 class WSListener : WebSocketListener() {
 
@@ -36,7 +40,6 @@ class WSListener : WebSocketListener() {
                 Log.i("Nombre de player", userList.userList.size.toString())*/
             }
         }
-
     }
 
     override fun onMessage(webSocket: WebSocket, bytes: ByteString) {
@@ -59,8 +62,9 @@ class WSListener : WebSocketListener() {
         Log.v("WS", txt)
     }
 
+    // update etat du web socket
     private fun updateWebSocketState(event: Event){
-        webSocketState.value = event
+        webSocketState.postValue(event)
     }
 
 }

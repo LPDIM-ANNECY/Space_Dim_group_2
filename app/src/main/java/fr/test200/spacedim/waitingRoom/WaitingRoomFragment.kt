@@ -15,6 +15,7 @@ import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.dashboard.DashboardFragmentDirections
+import fr.test200.spacedim.dataClass.Event
 import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
 import fr.test200.spacedim.network.Config
 import fr.test200.spacedim.network.WSListener
@@ -28,7 +29,7 @@ class WaitingRoomFragment : Fragment() {
     private lateinit var binding: WaitingRoomFragmentBinding
 
     private val viewModel: WaitingRoomViewModel by viewModels{
-        WaitingRoomViewModelFactory(SpaceDim.userRepository)
+        WaitingRoomViewModelFactory(SpaceDim.userRepository, WSListener())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -44,24 +45,40 @@ class WaitingRoomFragment : Fragment() {
         binding.waitingRoomViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        val client = OkHttpClient.Builder()
+
+
+        binding.buttonJoinRoom.setOnClickListener {         val client = OkHttpClient.Builder()
             .readTimeout(3, TimeUnit.SECONDS)
             .build()
-        val request = Request.Builder()
-            .url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/testNathan/101")
-            .build()
+            val request = Request.Builder()
+                .url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/testNathan/101")
+                .build()
 
-        val listener = WSListener()
-        val ws = client.newWebSocket(request, listener)
+            val listener = WSListener()
+            val ws = client.newWebSocket(request, listener) }
 
-        viewModel.eventGoDashBoard.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
+
+        // OBSERVABLE
+        /*viewModel.eventGoDashBoard.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
             if (isFinished) changeViewToDashBoard()
+        })*/
+
+        viewModel.getWebSocketState().observe(viewLifecycleOwner, Observer {
+            updateWebSocketState(it)
         })
 
         // event back pressed
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
 
         return binding.root
+    }
+
+    private fun updateWebSocketState(event: Event?) {
+        when(event){
+            is Event.WaitingForPlayer -> {
+
+            }
+        }
     }
 
     fun changeViewToDashBoard() {

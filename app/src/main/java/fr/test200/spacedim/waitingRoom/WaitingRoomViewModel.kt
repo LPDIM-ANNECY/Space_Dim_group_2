@@ -10,18 +10,16 @@ import fr.test200.spacedim.network.WSListener
 import fr.test200.spacedim.repository.UserRepository
 import retrofit2.HttpException
 
-sealed class HTTPState {
-    object Loading : HTTPState()
-    data class LoginSuccessful(val user: User) : HTTPState()
-    data class Error(val errorMessage: String, val httpException: HttpException? = null) :
-        HTTPState()
-}
-
-class WaitingRoomViewModel(userRepository: UserRepository) : ViewModel() {
+class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener) : ViewModel() {
 
     // userRepository
     val userRepository : UserRepository by lazy {
         userRepository
+    }
+
+    // userRepository
+    val webSocket : WSListener by lazy {
+        webSocket
     }
 
     private val _eventGoDashBoard = MutableLiveData<Boolean>()
@@ -29,7 +27,7 @@ class WaitingRoomViewModel(userRepository: UserRepository) : ViewModel() {
         get() = _eventGoDashBoard
 
     // recupération user list du websocket
-    //fun getWebSocketState(): LiveData<Event> = Event.WaitingForPlayer
+    fun getWebSocketState(): LiveData<Event> = webSocket.webSocketState
 
     init {
 
@@ -49,5 +47,9 @@ class WaitingRoomViewModel(userRepository: UserRepository) : ViewModel() {
 
     override fun onCleared() {
         super.onCleared()
+    }
+
+    fun joinRoom(name: String){
+        
     }
 }
