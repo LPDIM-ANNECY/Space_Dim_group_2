@@ -9,10 +9,7 @@ import fr.test200.spacedim.dataClass.User
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import okhttp3.Request
-import okhttp3.Response
-import okhttp3.WebSocket
-import okhttp3.WebSocketListener
+import okhttp3.*
 import okio.ByteString
 import kotlin.coroutines.suspendCoroutine
 
@@ -21,6 +18,7 @@ class WSListener : WebSocketListener() {
     // list user
     var webSocketState = MutableLiveData<Event>()
 
+    private var webSocket: WebSocket? = null
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         Log.i("log", "onOpen")
@@ -69,7 +67,8 @@ class WSListener : WebSocketListener() {
     }
 
     fun joinRoom(name: String, user: User){
-        val request = Request.Builder().url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/${name}/${user.id}")
+        val request = Request.Builder().url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/${name}/${user.id}").build()
+        webSocket = OkHttpClient().newWebSocket(request, this)
     }
 
 }

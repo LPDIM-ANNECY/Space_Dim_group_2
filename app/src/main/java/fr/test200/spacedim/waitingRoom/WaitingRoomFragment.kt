@@ -48,19 +48,6 @@ class WaitingRoomFragment : Fragment() {
         binding.waitingRoomViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-
-
-        binding.buttonJoinRoom.setOnClickListener {         val client = OkHttpClient.Builder()
-            .readTimeout(3, TimeUnit.SECONDS)
-            .build()
-            val request = Request.Builder()
-                .url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/testNathan/101")
-                .build()
-
-            val listener = WSListener()
-            val ws = client.newWebSocket(request, listener) }
-
-
         // OBSERVABLE
         /*viewModel.eventGoDashBoard.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
             if (isFinished) changeViewToDashBoard()
