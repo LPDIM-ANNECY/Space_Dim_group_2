@@ -94,6 +94,7 @@ class WaitingRoomFragment : Fragment() {
     private fun showDialog() {
         val dialog = RegisterDialogFragment("Nom du vaisseau", "", "Go !", "Annuler")
         dialog.onPositiveClick = {
+            viewModel.joinRoom(it)
         }
         activity?.supportFragmentManager?.let { dialog.show(it, "RegisterDialog") }
 
