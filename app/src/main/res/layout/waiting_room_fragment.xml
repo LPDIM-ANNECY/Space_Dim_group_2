@@ -29,7 +29,7 @@
             android:layout_width="192dp"
             android:layout_height="162dp"
             android:layout_marginTop="12dp"
-            android:background="@drawable/astronaute"
+            android:background="@drawable/systeme_solaire"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.502"
             app:layout_constraintStart_toStartOf="parent"
@@ -87,7 +87,7 @@
             app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/rocket_bg"
+            android:background="@drawable/astronaute_on_moon"
             android:id="@+id/WaitingRoomlinearLayout"
             app:layout_constraintVertical_bias="1.0"></LinearLayout>
 
