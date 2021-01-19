@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/waiting_room_destination"
         android:name="fr.test200.spacedim.waitingRoom.WaitingRoomFragment"
-        android:label="waitin_room_fragment"
+        android:label="waiting_room_fragment"
         tools:layout="@layout/waiting_room_fragment">
         <action
             android:id="@+id/action_waitingRoomFragment_to_dashboardFragment"

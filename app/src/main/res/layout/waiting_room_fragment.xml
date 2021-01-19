@@ -76,7 +76,9 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSocketActive"
-            android:onClick="@{() -> WaitingRoomViewModel.onGoDashboard()}"/>
+            android:onClick="@{() -> WaitingRoomViewModel.onDisplayPopupRoomName()}"/>
+            <!--android:onClick="@{() -> WaitingRoomViewModel.onGoDashboard()}"-->
+
 
         <LinearLayout
             android:layout_width="0dp"
