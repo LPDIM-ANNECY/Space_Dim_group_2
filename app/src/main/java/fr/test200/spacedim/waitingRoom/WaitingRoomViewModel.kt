@@ -3,9 +3,14 @@ package fr.test200.spacedim.waitingRoom
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import fr.test200.spacedim.repository.UserRepository
 
-class WaitingRoomViewModel : ViewModel() {
+class WaitingRoomViewModel(userRepository: UserRepository) : ViewModel() {
 
+    // userRepository
+    val userRepository : UserRepository by lazy {
+        userRepository
+    }
 
     private val _eventGoDashBoard = MutableLiveData<Boolean>()
     val eventGoDashBoard: LiveData<Boolean>

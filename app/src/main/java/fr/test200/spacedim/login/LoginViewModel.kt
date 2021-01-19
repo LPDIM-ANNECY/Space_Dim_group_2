@@ -60,6 +60,12 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
                     if (it.code() == 400){
                         httpResponse.value = HTTPState.Error("Edit text is null")
                     }
+                    if (it.code() == 401){
+                        httpResponse.value = HTTPState.Error("User already exist")
+                    }
+                    if (it.code() == 404){
+                        httpResponse.value = HTTPState.Error("User not found")
+                    }
                 }
             }
         }
@@ -72,7 +78,9 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
                 if (it.isSuccessful){
                     userRepository.registerUser(it.body())
                 } else {
-                    throw HttpException(it)
+                    if (it.code() == 400){
+                        httpResponse.value = HTTPState.Error("Edit text is null")
+                    }
                 }
             }
         }
