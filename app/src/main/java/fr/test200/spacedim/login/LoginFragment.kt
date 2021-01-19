@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -24,8 +25,9 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: LoginFragmentBinding
 
-    private lateinit var viewModel: LoginViewModel
-    private lateinit var viewModelFactory: LoginViewModelFactory
+    private val viewModel: LoginViewModel by viewModels{
+        LoginViewModelFactory(SpaceDim.userRepository)
+    }
     private var soundAmbiance: MediaPlayer? = null
 
     override fun onCreateView(
@@ -39,8 +41,6 @@ class LoginFragment : Fragment() {
             container,
             false
         )
-        viewModelFactory = LoginViewModelFactory(SpaceDim.userRepository)
-        viewModel = ViewModelProvider(this, viewModelFactory).get(LoginViewModel::class.java)
 
         binding.loginViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -55,14 +55,8 @@ class LoginFragment : Fragment() {
             onBackPressed()
         }
 
-        // Navigates back to game when button is pressed
-        viewModel.eventGo.observe(viewLifecycleOwner, Observer { go ->
-            if (go) {
-                soundAmbiance?.stop()
-                MediaPlayer.create(this.activity, R.raw.space_validated).start()
-                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToWaitingRoomFragment())
-                viewModel.onGoComplete()
-            }
+        viewModel.httpResponse.observe(viewLifecycleOwner, Observer {
+            httpStateUi(it)
         })
 
         return binding.root
@@ -89,6 +83,26 @@ class LoginFragment : Fragment() {
                 activity?.finish()
             }
         )
+    }
+
+    private fun httpStateUi(state: HTTPState){
+        when(state){
+            is HTTPState.Loading ->{
+
+            }
+            is HTTPState.LoginSuccessful -> {
+                soundAmbiance?.stop()
+                MediaPlayer.create(this.activity, R.raw.space_validated).start()
+                findNavController().navigate(LoginFragmentDirections.actionLoginFragmentToWaitingRoomFragment())
+            }
+            is HTTPState.Error -> {
+                binding.loginInfoRegister.setTextColor(resources.getColor(R.color.text_error,
+                    this.activity?.theme
+                ))
+                binding.loginInfoRegister.text = state.errorMessage
+                MediaPlayer.create(this.activity, R.raw.space_error).start()
+            }
+        }
     }
 
     /*private fun createEventRegisterUser(btnRegister: Button) {

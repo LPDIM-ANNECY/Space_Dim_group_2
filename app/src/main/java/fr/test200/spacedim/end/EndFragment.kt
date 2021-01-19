@@ -35,6 +35,8 @@ class EndFragment : Fragment() {
         binding.endViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        binding.endTextScore.text = viewModel.score.value.toString()
+
         return binding.root
     }
 
