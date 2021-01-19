@@ -33,8 +33,11 @@ class DashboardFragment : Fragment() {
 
     private lateinit var viewModel: DashboardViewModel
 
-    private var soundAmbiance = MediaPlayer.create(this.activity, R.raw.ambiance_dashboard)
-    private var tictac = MediaPlayer.create(this.activity, R.raw.tictac)
+    private var soundAmbiance: MediaPlayer? = null
+    private var tictac: MediaPlayer? = null
+
+
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View {
@@ -48,10 +51,12 @@ class DashboardFragment : Fragment() {
 
         viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
 
+        soundAmbiance = MediaPlayer.create(this.activity, R.raw.ambiance_dashboard)
+        tictac = MediaPlayer.create(this.activity, R.raw.tictac)
         soundAmbiance?.isLooping = true
         tictac?.isLooping = true
-        soundAmbiance.start()
-        tictac.start()
+        soundAmbiance?.start()
+        tictac?.start()
 
         binding.dashboardViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
