@@ -35,6 +35,19 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     val eventDisplayPopupRoomName: LiveData<Boolean>
         get() = _eventDisplayPopupRoomName
 
+
+    private val _eventIsInRoom = MutableLiveData<Boolean>()
+    val eventIsInRoom: LiveData<Boolean>
+        get() = _eventIsInRoom
+
+    private val _eventSocketActive = MutableLiveData<Boolean>()
+    val eventSocketActive: LiveData<Boolean>
+        get() = _eventSocketActive
+
+    private val _eventSwitchActivity = MutableLiveData<Boolean>()
+    val eventSwitchActivity: LiveData<Boolean>
+        get() = _eventSwitchActivity
+
     init {
     }
 
@@ -56,11 +69,17 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     }
 
     fun joinRoom(name: String){
+        _eventSocketActive.value = true
+        _eventIsInRoom.value = true
         userRepository.currentUser.value?.let { webSocket.joinRoom(name, it) }
     }
 
     fun onDisplayPopupRoomName() {
         _eventDisplayPopupRoomName.value = true
+    }
+
+    fun onSwitchActivity() {
+        _eventSwitchActivity.value = true
     }
 
 }
