@@ -71,6 +71,7 @@
             android:id="@+id/buttonJoinRoom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginHorizontal="70dp"
             android:layout_marginTop="8dp"
             android:text="@string/waitingRoom_btn_join"
             app:layout_constraintEnd_toEndOf="parent"
@@ -78,6 +79,20 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSocketActive"
             android:onClick="@{() -> WaitingRoomViewModel.onDisplayPopupRoomName()}"/>
+
+        <Button
+            android:id="@+id/buttonReady"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:paddingHorizontal="25dp"
+            android:visibility="invisible"
+            android:text="@string/waitingWaitForReady"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtSocketActive"
+            android:onClick="@{() -> WaitingRoomViewModel.onReady()}"/>
 
         <Button
             android:id="@+id/switchActivity"

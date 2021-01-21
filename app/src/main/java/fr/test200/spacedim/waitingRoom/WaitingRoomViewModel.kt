@@ -1,16 +1,12 @@
 package fr.test200.spacedim.waitingRoom
 
-import android.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import fr.test200.spacedim.dataClass.EditTextName
 import fr.test200.spacedim.dataClass.Event
-import fr.test200.spacedim.dataClass.User
+import fr.test200.spacedim.dataClass.EventType
 import fr.test200.spacedim.network.WSListener
 import fr.test200.spacedim.repository.UserRepository
-import retrofit2.HttpException
 
 class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener) : ViewModel() {
 
@@ -31,14 +27,9 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     // recupération user list du websocket
     fun getWebSocketState(): LiveData<Event> = webSocket.webSocketState
 
-    private val _eventDisplayPopupRoomName = MutableLiveData<Boolean>()
-    val eventDisplayPopupRoomName: LiveData<Boolean>
-        get() = _eventDisplayPopupRoomName
-
-
-    private val _eventIsInRoom = MutableLiveData<Boolean>()
-    val eventIsInRoom: LiveData<Boolean>
-        get() = _eventIsInRoom
+    private val _eventWaitingRoomStatus = MutableLiveData<EventType>()
+    val eventWaitingRoomStatus: LiveData<EventType>
+        get() = _eventWaitingRoomStatus
 
     private val _eventSocketActive = MutableLiveData<Boolean>()
     val eventSocketActive: LiveData<Boolean>
@@ -62,6 +53,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     }
 
     fun onGoDashboardComplete() {
+        _eventWaitingRoomStatus.value = EventType.GAME_STARTED
         _eventGoDashBoard.value = false
     }
 
@@ -72,13 +64,16 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     fun joinRoom(name: String){
         vaisseauName = name
         _eventSocketActive.value = true
-        _eventIsInRoom.value = true
-        _eventDisplayPopupRoomName.value = false
+        _eventWaitingRoomStatus.value = EventType.WAITING_FOR_PLAYER
         userRepository.currentUser.value?.let { webSocket.joinRoom(name, it) }
     }
 
+    fun onReady() {
+        _eventWaitingRoomStatus.value = EventType.READY
+    }
+
     fun onDisplayPopupRoomName() {
-        _eventDisplayPopupRoomName.value = true
+        _eventWaitingRoomStatus.value = EventType.NOT_IN_ROOM
     }
 
     fun onSwitchActivity() {

@@ -46,4 +46,5 @@
     <string name="end_text_btn_high_score">Meilleurs scores</string>
     <string name="end_text_btn_share">Partager votre exploit</string>
     <string name="end_text_content_image_description">rocket</string>
+    <string name="waitingWaitForReady">Ready ?</string>
 </resources>

@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 
 enum class EventType() {
     GAME_STARTED(), GAME_OVER(), ERROR(), READY(), NEXT_ACTION(),
-    NEXT_LEVEL(), WAITING_FOR_PLAYER(), PLAYER_ACTION()
+    NEXT_LEVEL(), WAITING_FOR_PLAYER(), PLAYER_ACTION(), NOT_IN_ROOM()
 }
 
 sealed class Event(@Json(name = "type") val eventType: EventType) {

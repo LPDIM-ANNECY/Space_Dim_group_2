@@ -18,7 +18,7 @@ class WSListener : WebSocketListener() {
     // list user
     var webSocketState = MutableLiveData<Event>()
 
-    private var webSocket: WebSocket? = null
+    var webSocket: WebSocket? = null
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         Log.i("log", "onOpen")
