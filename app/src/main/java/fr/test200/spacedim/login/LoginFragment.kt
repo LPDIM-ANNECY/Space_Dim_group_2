@@ -16,6 +16,7 @@ import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.Utils.Companion.createDialog
 import fr.test200.spacedim.Utils.Companion.hideKeyboard
 import fr.test200.spacedim.Utils.Companion.setTimeout
+import fr.test200.spacedim.dataClass.HTTPState
 import fr.test200.spacedim.databinding.LoginFragmentBinding
 
 

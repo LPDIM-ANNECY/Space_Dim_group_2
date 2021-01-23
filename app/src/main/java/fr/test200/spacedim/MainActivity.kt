@@ -9,7 +9,7 @@ import kotlinx.coroutines.MainScope
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var navController : NavController
+    private lateinit var navController: NavController
 
     private val scope = MainScope()
 

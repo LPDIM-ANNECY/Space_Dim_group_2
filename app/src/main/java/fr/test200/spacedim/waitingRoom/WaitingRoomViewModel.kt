@@ -1,31 +1,29 @@
 package fr.test200.spacedim.waitingRoom
 
+import android.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import fr.test200.spacedim.dataClass.Event
-import fr.test200.spacedim.dataClass.EventType
+import androidx.lifecycle.viewModelScope
+import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.network.WSListener
 import fr.test200.spacedim.repository.UserRepository
+import retrofit2.HttpException
 
 class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener) : ViewModel() {
 
-    // userRepository
     val userRepository: UserRepository by lazy {
         userRepository
     }
 
-    // userRepository
-    val webSocket : WSListener by lazy {
+    val webSocket: WSListener by lazy {
         webSocket
     }
 
-    private val _eventGoDashBoard = MutableLiveData<Boolean>()
-    val eventGoDashBoard: LiveData<Boolean>
-        get() = _eventGoDashBoard
-
-    // recupération user list du websocket
+    // recupération etat du websocket
     fun getWebSocketState(): LiveData<Event> = webSocket.webSocketState
+
+    fun getUserState(): LiveData<State> = userRepository.currentUserState
 
     private val _eventWaitingRoomStatus = MutableLiveData<EventType>()
     val eventWaitingRoomStatus: LiveData<EventType>
@@ -35,27 +33,19 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     val eventSocketActive: LiveData<Boolean>
         get() = _eventSocketActive
 
-    private val _eventSwitchActivity = MutableLiveData<Boolean>()
-    val eventSwitchActivity: LiveData<Boolean>
-        get() = _eventSwitchActivity
+    private val _eventShowDialog = MutableLiveData<Boolean>()
+    val eventShowDialog: LiveData<Boolean>
+        get() = _eventShowDialog
 
     var vaisseauName = ""
 
     init {
+        _eventWaitingRoomStatus.value = EventType.WAITING_FOR_PLAYER
     }
 
     /**
      * Callback called when the ViewModel is destroyed
      */
-
-    fun onGoDashboard() {
-        _eventGoDashBoard.value = true
-    }
-
-    fun onGoDashboardComplete() {
-        _eventWaitingRoomStatus.value = EventType.GAME_STARTED
-        _eventGoDashBoard.value = false
-    }
 
     override fun onCleared() {
         super.onCleared()
@@ -64,20 +54,18 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     fun joinRoom(name: String){
         vaisseauName = name
         _eventSocketActive.value = true
-        _eventWaitingRoomStatus.value = EventType.WAITING_FOR_PLAYER
+        userRepository.setStateWaiting()
         userRepository.currentUser.value?.let { webSocket.joinRoom(name, it) }
     }
 
-    fun onReady() {
-        _eventWaitingRoomStatus.value = EventType.READY
-    }
-
     fun onDisplayPopupRoomName() {
-        _eventWaitingRoomStatus.value = EventType.NOT_IN_ROOM
+        _eventShowDialog.value = true
     }
 
-    fun onSwitchActivity() {
-        _eventSwitchActivity.value = true
+    fun sendReady(){
+        _eventWaitingRoomStatus.value = EventType.READY
+        userRepository.setStateReady()
+        webSocket.sendReady()
     }
 
 }

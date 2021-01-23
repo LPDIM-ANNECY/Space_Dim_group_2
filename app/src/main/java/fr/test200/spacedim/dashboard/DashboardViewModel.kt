@@ -10,10 +10,20 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import fr.test200.spacedim.dataClass.Event
+import fr.test200.spacedim.network.WSListener
 
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel(webSocket: WSListener) : ViewModel() {
 
     private val scoreTest: Int = 42
+
+    // webSocket
+    val webSocket: WSListener by lazy {
+        webSocket
+    }
+
+    // recupération etat du websocket
+    fun getWebSocketState(): LiveData<Event> = webSocket.webSocketState
 
     private val _score = MutableLiveData<Int>()
     val score: LiveData<Int>

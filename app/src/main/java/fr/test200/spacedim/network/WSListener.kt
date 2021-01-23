@@ -1,10 +1,13 @@
 package fr.test200.spacedim.network
 
 import android.util.Log
+import androidx.annotation.Keep
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import fr.test200.spacedim.GameEventTools
+import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.dataClass.Event
+import fr.test200.spacedim.dataClass.State
 import fr.test200.spacedim.dataClass.User
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -12,6 +15,7 @@ import kotlinx.coroutines.launch
 import okhttp3.*
 import okio.ByteString
 import kotlin.coroutines.suspendCoroutine
+import kotlin.math.log
 
 class WSListener : WebSocketListener() {
 
@@ -27,17 +31,10 @@ class WSListener : WebSocketListener() {
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
-        //Log.i("log", "onMessage")
 
-        when(GameEventTools.spaceEventParser.fromJson(text)!!::class.java) {
-            Event.WaitingForPlayer::class.java -> {
-                val webSocketState = GameEventTools.spaceEventParser.fromJson(text) as Event.WaitingForPlayer
-                updateWebSocketState(webSocketState)
-                /*for(user in userList.userList) {
-                    Log.i("Name player :", user.name)
-                }
-                Log.i("Nombre de player", userList.userList.size.toString())*/
-            }
+        val response = GameEventTools.spaceEventParser.fromJson(text)
+        response?.let {
+            updateWebSocketState(it)
         }
     }
 
@@ -69,6 +66,10 @@ class WSListener : WebSocketListener() {
     fun joinRoom(name: String, user: User){
         val request = Request.Builder().url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/${name}/${user.id}").build()
         webSocket = OkHttpClient().newWebSocket(request, this)
+    }
+
+    fun sendReady(){
+        webSocket?.send("{\"type\":\"READY\", \"value\":true}")
     }
 
 }

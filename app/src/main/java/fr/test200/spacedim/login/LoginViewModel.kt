@@ -4,19 +4,13 @@ import androidx.databinding.BaseObservable
 import androidx.databinding.Bindable
 import androidx.lifecycle.*
 import fr.test200.spacedim.dataClass.EditTextName
+import fr.test200.spacedim.dataClass.HTTPState
 import fr.test200.spacedim.dataClass.User
 import fr.test200.spacedim.dataClass.UserPost
 import fr.test200.spacedim.network.SpaceDimApi
 import fr.test200.spacedim.repository.UserRepository
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
-
-sealed class HTTPState {
-    object Loading : HTTPState()
-    data class LoginSuccessful(val user: User) : HTTPState()
-    data class Error(val errorMessage: String, val httpException: HttpException? = null) :
-        HTTPState()
-}
 
 class LoginViewModel(userRepository: UserRepository) : ViewModel() {
 
@@ -87,6 +81,9 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
                 } else {
                     if (it.code() == 400){
                         httpResponse.value = HTTPState.Error("Edit text is null")
+                    }
+                    if (it.code() == 401){
+                        httpResponse.value = HTTPState.Error("User already exist")
                     }
                 }
             }

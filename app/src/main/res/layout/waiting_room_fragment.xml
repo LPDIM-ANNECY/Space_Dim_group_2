@@ -92,33 +92,20 @@
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSocketActive"
-            android:onClick="@{() -> WaitingRoomViewModel.onReady()}"/>
-
-        <Button
-            android:id="@+id/switchActivity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="switch activity tmp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/buttonJoinRoom"
-            android:onClick="@{() -> WaitingRoomViewModel.onSwitchActivity()}"/>
-            <!--android:onClick="@{() -> WaitingRoomViewModel.onGoDashboard()}"-->
-
+            android:onClick="@{() -> WaitingRoomViewModel.sendReady()}"/>
 
         <LinearLayout
+            android:id="@+id/WaitingRoomlinearLayout"
             android:layout_width="0dp"
             android:layout_height="313dp"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/astronaute_on_moon"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.506"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:background="@drawable/astronaute_on_moon"
-            android:id="@+id/WaitingRoomlinearLayout"
-            app:layout_constraintVertical_bias="1.0">
+            app:layout_constraintTop_toBottomOf="@+id/vaisseau_name">
 
             <ScrollView
                 android:id="@+id/list_player_view"
@@ -126,6 +113,7 @@
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/list_player_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" />

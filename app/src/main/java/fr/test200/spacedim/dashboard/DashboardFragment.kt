@@ -1,27 +1,27 @@
 package fr.test200.spacedim.dashboard
 
 import android.animation.ObjectAnimator
-import android.content.Context
-import android.content.res.Resources
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.util.DisplayMetrics
-import android.util.Log
-import android.util.TypedValue
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
-import fr.test200.spacedim.Utils
+import fr.test200.spacedim.SpaceDim
+import fr.test200.spacedim.dataClass.Event
+import fr.test200.spacedim.dataClass.State
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
-import fr.test200.spacedim.end.EndFragmentDirections
-import kotlinx.android.synthetic.main.dashboard_fragment.*
+import fr.test200.spacedim.network.WSListener
+import fr.test200.spacedim.waitingRoom.WaitingRoomViewModel
+import fr.test200.spacedim.waitingRoom.WaitingRoomViewModelFactory
 
 enum class moduleTypes {
     BUTTON, SWITCH
@@ -31,12 +31,12 @@ class DashboardFragment : Fragment() {
 
     private lateinit var binding: DashboardFragmentBinding
 
-    private lateinit var viewModel: DashboardViewModel
+    private val viewModel: DashboardViewModel by viewModels {
+        DashboardViewModelFactory(SpaceDim.webSocket)
+    }
 
     private var soundAmbiance: MediaPlayer? = null
     private var tictac: MediaPlayer? = null
-
-
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,8 +48,6 @@ class DashboardFragment : Fragment() {
                 container,
                 false
         )
-
-        viewModel = ViewModelProvider(this).get(DashboardViewModel::class.java)
 
         soundAmbiance = MediaPlayer.create(this.activity, R.raw.ambiance_dashboard)
         tictac = MediaPlayer.create(this.activity, R.raw.tictac)
@@ -81,7 +79,19 @@ class DashboardFragment : Fragment() {
             if (isFinished) gameFinishedWin()
         })
 
+        viewModel.getWebSocketState().observe(viewLifecycleOwner, Observer {
+            updateWebSocketState(it)
+        })
+
         return binding.root
+    }
+
+    private fun updateWebSocketState(event: Event?) {
+        when(event){
+            is Event.GameStarted -> {
+
+            }
+        }
     }
 
     override fun onPause() {

@@ -24,7 +24,6 @@ object GameEventTools {
                 .withSubtype(UIElement.Switch::class.java, UIType.SWITCH.name)
                 .withSubtype(UIElement.Shake::class.java, UIType.SHAKE.name)
         )
-        //add(PolymorphicJsonAdapterFactory.of(PlayerEvent))
         add(KotlinJsonAdapterFactory())
         build()
     }

@@ -1,14 +1,17 @@
 package fr.test200.spacedim.waitingRoom
 
-import fr.test200.spacedim.dataClass.RegisterDialogFragment
+import android.app.ActionBar
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.addCallback
-import androidx.core.text.HtmlCompat
+import androidx.cardview.widget.CardView
+import androidx.core.view.children
+import androidx.core.view.marginBottom
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -17,26 +20,24 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
-import fr.test200.spacedim.dataClass.Event
-import fr.test200.spacedim.dataClass.EventType
+import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
 import fr.test200.spacedim.network.WSListener
-import java.util.concurrent.TimeUnit
+
 
 class WaitingRoomFragment : Fragment() {
 
     private lateinit var binding: WaitingRoomFragmentBinding
 
     private val viewModel: WaitingRoomViewModel by viewModels {
-        WaitingRoomViewModelFactory(SpaceDim.userRepository, WSListener())
+        WaitingRoomViewModelFactory(SpaceDim.userRepository, SpaceDim.webSocket)
     }
 
     private var dialog: RegisterDialogFragment? = null
 
     private var soundAmbiance: MediaPlayer? = null
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
         binding = DataBindingUtil.inflate(
             inflater,
@@ -49,25 +50,16 @@ class WaitingRoomFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         // OBSERVABLE
-        /*viewModel.eventGoDashBoard.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
-            if (isFinished) changeViewToDashBoard()
-        })*/
-
         viewModel.getWebSocketState().observe(viewLifecycleOwner, Observer {
             updateWebSocketState(it)
         })
 
-        viewModel.eventWaitingRoomStatus.observe(viewLifecycleOwner, Observer<EventType> {
-            when(it) {
-                EventType.NOT_IN_ROOM -> showDialog()
-                EventType.WAITING_FOR_PLAYER ->
-                    binding.buttonReady.visibility = View.VISIBLE
-                EventType.READY -> {
-                    viewModel.webSocket.webSocket?.send("{\"type\":\"READY\", \"value\":true}")
-                    binding.buttonReady.text = Html.fromHtml("<i>You are ready !<br>Waiting for Players to ready up</i>", Html.FROM_HTML_MODE_COMPACT)
-                    binding.buttonReady.isEnabled = false
-                }
-            }
+        viewModel.getUserState().observe(viewLifecycleOwner, Observer{
+            updateRoomStatus(it)
+        })
+
+        viewModel.eventShowDialog.observe(viewLifecycleOwner, Observer{
+            showDialog()
         })
 
         viewModel.eventSocketActive.observe(viewLifecycleOwner, Observer<Boolean> { isActive ->
@@ -76,32 +68,47 @@ class WaitingRoomFragment : Fragment() {
             }
         })
 
-        viewModel.eventSwitchActivity.observe(viewLifecycleOwner, Observer<Boolean> {
-            findNavController().navigate(WaitingRoomFragmentDirections.actionWaitingRoomFragmentToDashboardFragment())
-        })
-
         // event back pressed
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
 
         return binding.root
     }
 
-    private fun updateWebSocketState(event: Event?) {
-        when(event){
-            is Event.WaitingForPlayer -> {
-                binding.vaisseauName.text = Html.fromHtml("Vaisseau : <b>${viewModel.vaisseauName}</b>", Html.FROM_HTML_MODE_COMPACT)
-                binding.buttonJoinRoom.visibility = View.INVISIBLE
+    private fun updateRoomStatus(eventType: State){
+        when(eventType){
+            State.WAITING ->
+                binding.buttonReady.visibility = View.VISIBLE
+            State.READY -> {
+                binding.buttonReady.text = Html.fromHtml("<i>You are ready !<br>Waiting for Players to ready up</i>", Html.FROM_HTML_MODE_COMPACT)
+                binding.buttonReady.isEnabled = false
             }
         }
     }
 
-    fun changeViewToDashBoard() {
+    private fun updateWebSocketState(event: Event?) {
+        when(event){
+            is Event.WaitingForPlayer -> {
+                //Create Element in fragment
+                binding.vaisseauName.text = Html.fromHtml("Vaisseau : <b>${viewModel.vaisseauName}</b>", Html.FROM_HTML_MODE_COMPACT)
+                binding.buttonJoinRoom.visibility = View.INVISIBLE
+                binding.listPlayerLayout.removeAllViews()
+                event.userList.forEach {
+                    createCardView(it.name, it.state)
+                }
+                //Check all player ready
+               if (event.userList.count() > 1 && event.userList.all{it.state == State.READY}){
+                   changeViewToDashBoard()
+               }
+            }
+        }
+    }
+
+    private fun changeViewToDashBoard() {
         MediaPlayer.create(this.activity, R.raw.decol).start()
         val action = WaitingRoomFragmentDirections.actionWaitingRoomFragmentToDashboardFragment()
         NavHostFragment.findNavController(this).navigate(action)
-        viewModel.onGoDashboardComplete()
     }
-    // Usage
+
     private fun showDialog() {
         if(dialog === null) {
             dialog = RegisterDialogFragment("Nom du vaisseau", "", "Go !", "Annuler")
@@ -115,4 +122,19 @@ class WaitingRoomFragment : Fragment() {
             println("isHidden " + dialog?.isHidden)
         }
     }
+
+    private fun createCardView(name: String, state: State){
+        var inflater = LayoutInflater.from(this.context)
+        var userCard = inflater.inflate(R.layout.user_card,null) as CardView
+
+        userCard.findViewById<TextView>(R.id.user_name).text = name
+        userCard.findViewById<TextView>(R.id.user_status).text = state.toString()
+
+        userCard.cardElevation = 10F
+        var params = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT)
+        params.setMargins(20, 10, 20, 30)
+        userCard.layoutParams = params
+        binding.listPlayerLayout.addView(userCard)
+    }
+
 }

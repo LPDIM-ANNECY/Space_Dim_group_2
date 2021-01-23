@@ -16,7 +16,7 @@ class Utils {
             title: String,
             message: String,
             cancelable: Boolean = true,
-            onQuit : () -> Unit = fun (){}
+            onQuit: () -> Unit = fun (){}
         ): AlertDialog? {
             val alertDialog: AlertDialog.Builder = AlertDialog.Builder(context)
 
