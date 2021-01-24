@@ -58,6 +58,13 @@ class EndFragment : Fragment() {
             }
         })
 
+        viewModel.eventHighScore.observe(viewLifecycleOwner, {
+            if (it) {
+                findNavController().navigate(EndFragmentDirections.actionEndFragmentToHighscoreFragment())
+                viewModel.onGoHighScoreComplete()
+            }
+        })
+
         return binding.root
     }
 }

@@ -39,6 +39,9 @@
         <action
             android:id="@+id/action_endFragment_to_waitingRoomFragment"
             app:destination="@id/waiting_room_destination" />
+        <action
+            android:id="@+id/action_endFragment_to_highscoreFragment"
+            app:destination="@id/highscore_destination" />
         <argument
             android:name="score"
             android:defaultValue="0"
@@ -47,5 +50,15 @@
             android:name="win"
             android:defaultValue="false"
             app:argType="boolean" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/highscore_destination"
+        android:name="fr.test200.spacedim.score.HighscoreFragment"
+        android:label="highscore_fragment"
+        tools:layout="@layout/highscore_fragment">
+        <action
+            android:id="@+id/action_highscoreFragment_to_endFragment"
+            app:destination="@id/end_destination" />
     </fragment>
 </navigation>

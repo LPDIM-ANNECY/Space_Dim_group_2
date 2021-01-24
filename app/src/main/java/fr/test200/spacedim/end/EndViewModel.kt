@@ -31,6 +31,10 @@ class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
     val eventPlayAgain: LiveData<Boolean>
         get() = _eventPlayAgain
 
+    private val _eventHighScore = MutableLiveData<Boolean>()
+    val eventHighScore: LiveData<Boolean>
+        get() = _eventHighScore
+
     init {
         _score.value = finalScore
         _win.value = win
@@ -56,6 +60,13 @@ class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
     }
     fun onPlayAgainComplete() {
         _eventPlayAgain.value = false
+    }
+
+    fun onGoHighScore() {
+        _eventHighScore.value = true
+    }
+    fun onGoHighScoreComplete() {
+        _eventHighScore.value = false
     }
 
 }

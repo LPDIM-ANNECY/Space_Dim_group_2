@@ -106,7 +106,7 @@
             app:layout_constraintTop_toBottomOf="@+id/vaisseau_name">
 
             <ScrollView
-                android:id="@+id/list_player_view"
+                android:id="@+id/scrollview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 

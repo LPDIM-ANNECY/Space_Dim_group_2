@@ -23,7 +23,7 @@ private val retrofit = Retrofit.Builder()
 interface SpaceDimApiService {
 
     @GET("api/users")
-    suspend fun getUsersList(): Response<List<User>>
+    suspend fun getUsersList(@Query("sort") sort: String? = null): Response<List<User>>
 
     @GET("api/user/find/{name}")
     suspend fun getUserByName(@Path("name") username: String): Response<User>
