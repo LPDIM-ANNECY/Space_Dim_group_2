@@ -34,6 +34,10 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     val spatialshipName: LiveData<String>
         get() = _spatialshipName
 
+    private val _spatialshipNameText = MutableLiveData<String>()
+    val spatialshipNameText: LiveData<String>
+        get() = _spatialshipNameText
+
     private val _eventShowDialog = MutableLiveData<Boolean>()
     val eventShowDialog: LiveData<Boolean>
         get() = _eventShowDialog
@@ -68,7 +72,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     }
 
     fun setTextSpatialshipName(name: String) {
-        _spatialshipName.value = name
+        _spatialshipNameText.value = name
     }
 
 }

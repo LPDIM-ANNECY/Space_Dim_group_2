@@ -97,7 +97,7 @@ class WaitingRoomFragment : Fragment() {
             is Event.WaitingForPlayer -> {
                 binding.socketActiveColor.setImageResource(R.drawable.ic_socket_active)
                 //Create Element in fragment
-                viewModel.setTextSpatialshipName(Html.fromHtml(getString(R.string.spatialship_room, viewModel.spatialshipName), Html.FROM_HTML_MODE_COMPACT).toString())
+                viewModel.setTextSpatialshipName(Html.fromHtml(getString(R.string.spatialship_room, viewModel.spatialshipName.value), Html.FROM_HTML_MODE_COMPACT).toString())
                 binding.buttonJoinRoom.visibility = View.INVISIBLE
                 binding.listPlayerLayout.removeAllViews()
                 event.userList.forEach {
