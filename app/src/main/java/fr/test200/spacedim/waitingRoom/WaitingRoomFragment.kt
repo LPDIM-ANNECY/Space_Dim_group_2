@@ -77,8 +77,11 @@ class WaitingRoomFragment : Fragment() {
 
     private fun updateRoomStatus(eventType: State){
         when(eventType){
-            State.WAITING ->
+            State.WAITING ->{
                 binding.buttonReady.visibility = View.VISIBLE
+                binding.buttonReady.text = "Ready ?"
+                binding.buttonReady.isEnabled = true
+            }
             State.READY -> {
                 binding.buttonReady.text = Html.fromHtml("<i>You are ready !<br>Waiting for Players to ready up</i>", Html.FROM_HTML_MODE_COMPACT)
                 binding.buttonReady.isEnabled = false
@@ -87,7 +90,7 @@ class WaitingRoomFragment : Fragment() {
 
             }
             State.OVER -> {
-
+                binding.buttonJoinRoom.visibility = View.VISIBLE
             }
         }
     }

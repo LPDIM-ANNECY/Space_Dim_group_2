@@ -17,9 +17,11 @@ object GameEventTools {
                 .withSubtype(Event.NextAction::class.java, EventType.NEXT_ACTION.name)
                 .withSubtype(Event.NextLevel::class.java, EventType.NEXT_LEVEL.name)
                 .withSubtype(Event.Error::class.java, EventType.ERROR.name)
+                .withSubtype(Event.Ready::class.java, EventType.READY.name)
+                .withSubtype(Event.PlayerAction::class.java, EventType.PLAYER_ACTION.name)
         )
         add(
-            PolymorphicJsonAdapterFactory.of(UIElement::class.java, "uiType")
+            PolymorphicJsonAdapterFactory.of(UIElement::class.java, "type")
                 .withSubtype(UIElement.Button::class.java, UIType.BUTTON.name)
                 .withSubtype(UIElement.Switch::class.java, UIType.SWITCH.name)
                 .withSubtype(UIElement.Shake::class.java, UIType.SHAKE.name)

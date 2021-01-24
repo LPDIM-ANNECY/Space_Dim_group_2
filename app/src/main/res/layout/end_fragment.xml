@@ -28,12 +28,12 @@
             app:srcCompat="@drawable/rocket_5666114_960_720" />
 
         <TextView
-            android:id="@+id/end_text_comment"
+            android:id="@+id/comment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginEnd="50dp"
-            android:text="@string/end_text_comment_win"
+            android:text="@{endViewModel.winText}"
             android:textAlignment="center"
             android:textColor="?attr/colorPrimary"
             android:textSize="24sp"
@@ -43,68 +43,69 @@
             app:layout_constraintTop_toBottomOf="@+id/end_image" />
 
         <TextView
-            android:id="@+id/end_text_score"
+            android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:text="@string/end_text_score"
             android:textSize="18sp"
             android:textStyle="bold"
+            android:text="@{@string/end_text_score(endViewModel.score)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end_text_comment" />
+            app:layout_constraintTop_toBottomOf="@+id/comment" />
 
         <TextView
-            android:id="@+id/end_text_score_comment"
+            android:id="@+id/score_comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="176dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="177dp"
-            android:text="@string/end_text_score_comment"
             android:textSize="18sp"
             android:textStyle="italic"
+            android:text="@{@string/end_text_score_comment(endViewModel.reputationText)}"
             android:theme="@style/Theme.SpaceDIM"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end_text_score" />
+            app:layout_constraintTop_toBottomOf="@+id/score" />
 
-        <Button
-            android:id="@+id/end_btn_retry"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/end_text_btn_retry"
-            android:textColor="@color/white"
-            app:iconTint="@color/primary_text_color"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end_text_score_comment" />
+     <Button
+         android:id="@+id/btn_retry"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:text="@string/end_text_btn_retry"
+         android:textColor="@color/white"
+         app:iconTint="@color/primary_text_color"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/score_comment"
+         android:onClick="@{() -> endViewModel.onPlayAgain()}"/>
 
-        <Button
-            android:id="@+id/end_btn_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="50dp"
-            android:text="@string/end_text_btn_share"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end_btn_high_score"
-            app:layout_constraintVertical_bias="0.0" />
+     <Button
+         android:id="@+id/btn_share"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:layout_marginBottom="50dp"
+         android:text="@string/end_text_btn_share"
+         android:textColor="@color/white"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintHorizontal_bias="0.497"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/btn_high_score"
+         app:layout_constraintVertical_bias="0.0" />
 
-        <Button
-            android:id="@+id/end_btn_high_score"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="@string/end_text_btn_high_score"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/end_btn_retry" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+     <Button
+         android:id="@+id/btn_high_score"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:text="@string/end_text_btn_high_score"
+         android:textColor="@color/white"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/btn_retry" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

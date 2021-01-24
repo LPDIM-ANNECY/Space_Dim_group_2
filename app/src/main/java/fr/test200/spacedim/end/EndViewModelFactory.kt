@@ -3,11 +3,11 @@ package fr.test200.spacedim.end
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 
-class EndViewModelFactory(private val finalScore: Int) : ViewModelProvider.Factory {
+class EndViewModelFactory(private val finalScore: Int, private val win: Boolean) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(EndViewModel::class.java)) {
-            return EndViewModel(finalScore) as T
+            return EndViewModel(finalScore, win) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }

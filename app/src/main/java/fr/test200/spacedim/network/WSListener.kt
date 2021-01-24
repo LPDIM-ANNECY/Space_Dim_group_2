@@ -8,6 +8,7 @@ import fr.test200.spacedim.GameEventTools
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.dataClass.Event
 import fr.test200.spacedim.dataClass.State
+import fr.test200.spacedim.dataClass.UIElement
 import fr.test200.spacedim.dataClass.User
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.coroutineScope
@@ -19,7 +20,6 @@ import kotlin.math.log
 
 class WSListener : WebSocketListener() {
 
-    // list user
     var webSocketState = MutableLiveData<Event>()
 
     var webSocket: WebSocket? = null
@@ -31,9 +31,9 @@ class WSListener : WebSocketListener() {
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
-
         val response = GameEventTools.spaceEventParser.fromJson(text)
         response?.let {
+            Log.i("testlog", it.toString())
             updateWebSocketState(it)
         }
     }
@@ -70,6 +70,15 @@ class WSListener : WebSocketListener() {
 
     fun sendReady(){
         webSocket?.send("{\"type\":\"READY\", \"value\":true}")
+    }
+
+    fun sendAction(uiElement: UIElement){
+        webSocket?.send("{\"type\":\"PLAYER_ACTION\", \"uiElement\":{\"id\":\"${uiElement.id}\", \"type\"\"${uiElement.type}\", \"value\":${uiElement.content}}}")
+    }
+
+    fun stopWebSocket(){
+        webSocket?.close(1000, null)
+        webSocket = null
     }
 
 }

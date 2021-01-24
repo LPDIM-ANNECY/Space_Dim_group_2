@@ -36,8 +36,8 @@
     <!--_________________End Layout_________________-->
     <string name="end_text_comment_win">Vous avez gagné good Team !</string>
     <string name="end_text_comment_lose">Vous avez perdu expulser un de vos membre dans l\'espace !!</string>
-    <string name="end_text_score">Votre score est donc de: </string>
-    <string name="end_text_score_comment">Votre space reputation </string>
+    <string name="end_text_score">Votre score est donc de: %d</string>
+    <string name="end_text_score_comment">Votre space reputation %s</string>
     <string name="end_text_space_reputation_laika">Laïka</string>
     <string name="end_text_space_reputation_yuri">Yuri</string>
     <string name="end_text_space_reputation_valentina">Valentina</string>

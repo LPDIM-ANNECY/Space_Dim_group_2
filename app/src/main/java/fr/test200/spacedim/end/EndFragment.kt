@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.databinding.EndFragmentBinding
 
@@ -29,45 +30,32 @@ class EndFragment : Fragment() {
                 false
         )
 
-        viewModelFactory = EndViewModelFactory(EndFragmentArgs.fromBundle(requireArguments()).score)
+        viewModelFactory = EndViewModelFactory(EndFragmentArgs.fromBundle(requireArguments()).score, EndFragmentArgs.fromBundle(requireArguments()).win)
         viewModel = ViewModelProvider(this, viewModelFactory).get(EndViewModel::class.java)
         // Data binding
         binding.endViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
-        binding.endTextScore.text = viewModel.score.value.toString()
+        viewModel.win.observe(viewLifecycleOwner, {
+            if (it) viewModel.setWinText(getString(R.string.end_text_comment_win)) else viewModel.setWinText(getString(R.string.end_text_comment_lose))
+        })
+
+        viewModel.score.observe(viewLifecycleOwner, {
+            when{
+                it < 100 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_laika))
+                it in 100..199 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_yuri))
+                it in 200..299 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_valentina))
+                else -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_apollo11))
+            }
+        })
+
+        viewModel.eventPlayAgain.observe(viewLifecycleOwner,  {
+            if (it) {
+                findNavController().navigate(EndFragmentDirections.actionEndFragmentToWaitingRoomFragment())
+                viewModel.onPlayAgainComplete()
+            }
+        })
 
         return binding.root
     }
-
-    /*override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_end_layout)
-
-        //region win or loose intent param
-        val win = intent.getBooleanExtra("winKey", false)
-
-        if (!win)
-            end_text_comment.text = getString(R.string.end_text_comment_lose)
-        //endregion
-
-        end_btn_retry.setOnClickListener {
-            val intent = Intent(this, WaitingRoomFragment::class.java)
-            startActivity(intent)
-        }
-
-        Log.i(tag, "onCreate")
-    }
-
-    override fun onBackPressed() {
-        createDialog(
-            this,
-            "Quitter",
-            "Une derniere partie ?",
-            true,
-            fun() {
-                Log.i(tag, "close")
-            }
-        )
-    }*/
 }

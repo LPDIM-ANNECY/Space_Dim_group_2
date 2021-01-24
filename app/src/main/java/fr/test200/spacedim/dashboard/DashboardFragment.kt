@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Html
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,9 +18,11 @@ import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.dataClass.Event
+import fr.test200.spacedim.dataClass.EventType
 import fr.test200.spacedim.dataClass.State
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
 import fr.test200.spacedim.network.WSListener
+import fr.test200.spacedim.waitingRoom.WaitingRoomFragmentDirections
 import fr.test200.spacedim.waitingRoom.WaitingRoomViewModel
 import fr.test200.spacedim.waitingRoom.WaitingRoomViewModelFactory
 
@@ -49,6 +52,9 @@ class DashboardFragment : Fragment() {
                 false
         )
 
+        binding.dashboardViewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
+
         soundAmbiance = MediaPlayer.create(this.activity, R.raw.ambiance_dashboard)
         tictac = MediaPlayer.create(this.activity, R.raw.tictac)
         soundAmbiance?.isLooping = true
@@ -56,16 +62,13 @@ class DashboardFragment : Fragment() {
         soundAmbiance?.start()
         tictac?.start()
 
-        binding.dashboardViewModel = viewModel
-        binding.lifecycleOwner = viewLifecycleOwner
-
         val moduleTypeList = mutableListOf<String>()
-        val moduleMaxNumber = 9;
+        val moduleMaxNumber = 9
         val moduleNumber = (4..moduleMaxNumber).random()
 
         ObjectAnimator.ofInt(binding.progressBar, "progress", 100)
                 .setDuration(10000)
-                .start();
+                .start()
 
         for (moduleIndex in 0..moduleNumber) {
             val moduleType = moduleTypes.values()[(moduleTypes.values().indices).random()]
@@ -75,11 +78,7 @@ class DashboardFragment : Fragment() {
         //création des boutons
         makeList(moduleTypeList, moduleNumber)
 
-        viewModel.eventGameFinished.observe(viewLifecycleOwner, Observer<Boolean> { isFinished ->
-            if (isFinished) gameFinishedWin()
-        })
-
-        viewModel.getWebSocketState().observe(viewLifecycleOwner, Observer {
+        viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
         })
 
@@ -89,6 +88,21 @@ class DashboardFragment : Fragment() {
     private fun updateWebSocketState(event: Event?) {
         when(event){
             is Event.GameStarted -> {
+
+            }
+            is Event.NextAction -> {
+
+            }
+            is Event.NextLevel -> {
+
+            }
+            is Event.GameOver -> {
+                try {
+                    gameFinished(event.score, event.win)
+                }
+                catch (exception: Exception){
+                    throw exception
+                }
 
             }
         }
@@ -144,11 +158,12 @@ class DashboardFragment : Fragment() {
         }
     }
 
-
-    fun gameFinishedWin() {
+    fun gameFinished(score: Int, win: Boolean) {
+        viewModel.closeWebSocketConnection()
         val action = DashboardFragmentDirections.actionDashboardFragmentToEndFragment()
-        action.score = viewModel.score.value?:0
+        action.score = score
+        action.win = win
         NavHostFragment.findNavController(this).navigate(action)
-        viewModel.onGameFinishedComplete()
     }
+
 }
