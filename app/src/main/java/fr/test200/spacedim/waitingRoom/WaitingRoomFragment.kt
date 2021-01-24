@@ -1,5 +1,6 @@
 package fr.test200.spacedim.waitingRoom
 
+import android.annotation.SuppressLint
 import android.app.ActionBar
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -50,19 +51,19 @@ class WaitingRoomFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         // OBSERVABLE
-        viewModel.getWebSocketState().observe(viewLifecycleOwner, Observer {
+        viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
         })
 
-        viewModel.getUserState().observe(viewLifecycleOwner, Observer{
+        viewModel.getUserState().observe(viewLifecycleOwner, {
             updateRoomStatus(it)
         })
 
-        viewModel.eventShowDialog.observe(viewLifecycleOwner, Observer{
+        viewModel.eventShowDialog.observe(viewLifecycleOwner, {
             showDialog()
         })
 
-        viewModel.eventSocketActive.observe(viewLifecycleOwner, Observer<Boolean> { isActive ->
+        viewModel.eventSocketActive.observe(viewLifecycleOwner, { isActive ->
             if(isActive) {
                 binding.txtSocketActive.text = "Socket active"
             }
@@ -82,6 +83,12 @@ class WaitingRoomFragment : Fragment() {
                 binding.buttonReady.text = Html.fromHtml("<i>You are ready !<br>Waiting for Players to ready up</i>", Html.FROM_HTML_MODE_COMPACT)
                 binding.buttonReady.isEnabled = false
             }
+            State.IN_GAME -> {
+
+            }
+            State.OVER -> {
+
+            }
         }
     }
 
@@ -96,7 +103,7 @@ class WaitingRoomFragment : Fragment() {
                     createCardView(it.name, it.state)
                 }
                 //Check all player ready
-               if (event.userList.count() > 1 && event.userList.all{it.state == State.READY}){
+               if (event.userList.count() > 1 && event.allUserReady()){
                    changeViewToDashBoard()
                }
             }
@@ -123,15 +130,16 @@ class WaitingRoomFragment : Fragment() {
         }
     }
 
+    @SuppressLint("InflateParams")
     private fun createCardView(name: String, state: State){
-        var inflater = LayoutInflater.from(this.context)
-        var userCard = inflater.inflate(R.layout.user_card,null) as CardView
+        val inflater = LayoutInflater.from(this.context)
+        val userCard = inflater.inflate(R.layout.user_card,null) as CardView
 
         userCard.findViewById<TextView>(R.id.user_name).text = name
         userCard.findViewById<TextView>(R.id.user_status).text = state.toString()
 
         userCard.cardElevation = 10F
-        var params = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT)
+        val params = ViewGroup.MarginLayoutParams(ViewGroup.MarginLayoutParams.MATCH_PARENT, ViewGroup.MarginLayoutParams.WRAP_CONTENT)
         params.setMargins(20, 10, 20, 30)
         userCard.layoutParams = params
         binding.listPlayerLayout.addView(userCard)
