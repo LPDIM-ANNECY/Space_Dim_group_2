@@ -93,7 +93,6 @@ class DashboardFragment : Fragment() {
                 catch (exception: Exception){
                     throw exception
                 }
-
             }
         }
     }
@@ -112,8 +111,6 @@ class DashboardFragment : Fragment() {
 
     fun createRows(moduleList: List<UIElement>) {
         binding.tabletruc.removeAllViews()
-        val moduleNumber = moduleList.size
-        val numberOfRow: Int = (moduleNumber / 2)
 
         val myMap = mutableMapOf<Int, List<UIElement>>()
 
