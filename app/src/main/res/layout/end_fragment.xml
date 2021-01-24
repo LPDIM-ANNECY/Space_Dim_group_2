@@ -82,22 +82,7 @@
          app:layout_constraintTop_toBottomOf="@+id/score_comment"
          android:onClick="@{() -> endViewModel.onPlayAgain()}"/>
 
-     <Button
-         android:id="@+id/btn_share"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:layout_marginTop="20dp"
-         android:layout_marginBottom="50dp"
-         android:text="@string/end_text_btn_share"
-         android:textColor="@color/white"
-         app:layout_constraintBottom_toBottomOf="parent"
-         app:layout_constraintEnd_toEndOf="parent"
-         app:layout_constraintHorizontal_bias="0.497"
-         app:layout_constraintStart_toStartOf="parent"
-         app:layout_constraintTop_toBottomOf="@+id/btn_high_score"
-         app:layout_constraintVertical_bias="0.0" />
-
-     <Button
+        <Button
          android:id="@+id/btn_high_score"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
