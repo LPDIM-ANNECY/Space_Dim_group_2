@@ -1,14 +1,11 @@
 package fr.test200.spacedim.waitingRoom
 
-import android.app.AlertDialog
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.network.WSListener
 import fr.test200.spacedim.repository.UserRepository
-import retrofit2.HttpException
 
 class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener) : ViewModel() {
 
@@ -33,11 +30,13 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     val eventSocketActive: LiveData<Boolean>
         get() = _eventSocketActive
 
+    private val _spatialshipName = MutableLiveData<String>()
+    val spatialshipName: LiveData<String>
+        get() = _spatialshipName
+
     private val _eventShowDialog = MutableLiveData<Boolean>()
     val eventShowDialog: LiveData<Boolean>
         get() = _eventShowDialog
-
-    var vaisseauName = ""
 
     init {
         _eventWaitingRoomStatus.value = EventType.WAITING_FOR_PLAYER
@@ -52,7 +51,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     }
 
     fun joinRoom(name: String){
-        vaisseauName = name
+        _spatialshipName.value = name
         _eventSocketActive.value = true
         userRepository.setStateWaiting()
         userRepository.currentUser.value?.let { webSocket.joinRoom(name, it) }
@@ -66,6 +65,10 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
         _eventWaitingRoomStatus.value = EventType.READY
         userRepository.setStateReady()
         webSocket.sendReady()
+    }
+
+    fun setTextSpatialshipName(name: String) {
+        _spatialshipName.value = name
     }
 
 }

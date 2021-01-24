@@ -1,7 +1,6 @@
 package fr.test200.spacedim.waitingRoom
 
 import android.annotation.SuppressLint
-import android.app.ActionBar
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.text.Html
@@ -11,19 +10,15 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.activity.addCallback
 import androidx.cardview.widget.CardView
-import androidx.core.view.children
-import androidx.core.view.marginBottom
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.databinding.WaitingRoomFragmentBinding
-import fr.test200.spacedim.network.WSListener
+import kotlinx.android.synthetic.main.waiting_room_fragment.*
 
 
 class WaitingRoomFragment : Fragment() {
@@ -50,6 +45,8 @@ class WaitingRoomFragment : Fragment() {
         binding.waitingRoomViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewModel.setTextSpatialshipName(getString(R.string.waitingRoom_no_ship_join))
+
         // OBSERVABLE
         viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
@@ -65,7 +62,7 @@ class WaitingRoomFragment : Fragment() {
 
         viewModel.eventSocketActive.observe(viewLifecycleOwner, { isActive ->
             if(isActive) {
-                binding.txtSocketActive.text = "Socket active"
+                binding.txtSocketActive.text = getString(R.string.socket_active)
             }
         })
 
@@ -79,11 +76,11 @@ class WaitingRoomFragment : Fragment() {
         when(eventType){
             State.WAITING ->{
                 binding.buttonReady.visibility = View.VISIBLE
-                binding.buttonReady.text = "Ready ?"
+                binding.buttonReady.text = getString(R.string.ready)
                 binding.buttonReady.isEnabled = true
             }
             State.READY -> {
-                binding.buttonReady.text = Html.fromHtml("<i>You are ready !<br>Waiting for Players to ready up</i>", Html.FROM_HTML_MODE_COMPACT)
+                binding.buttonReady.text = Html.fromHtml(getString(R.string.you_are_ready), Html.FROM_HTML_MODE_COMPACT)
                 binding.buttonReady.isEnabled = false
             }
             State.IN_GAME -> {
@@ -100,7 +97,7 @@ class WaitingRoomFragment : Fragment() {
             is Event.WaitingForPlayer -> {
                 binding.socketActiveColor.setImageResource(R.drawable.ic_socket_active)
                 //Create Element in fragment
-                binding.vaisseauName.text = Html.fromHtml("Vaisseau : <b>${viewModel.vaisseauName}</b>", Html.FROM_HTML_MODE_COMPACT)
+                viewModel.setTextSpatialshipName(Html.fromHtml(getString(R.string.spatialship_room, viewModel.spatialshipName), Html.FROM_HTML_MODE_COMPACT).toString())
                 binding.buttonJoinRoom.visibility = View.INVISIBLE
                 binding.listPlayerLayout.removeAllViews()
                 event.userList.forEach {
@@ -122,7 +119,7 @@ class WaitingRoomFragment : Fragment() {
 
     private fun showDialog() {
         if(dialog === null) {
-            dialog = RegisterDialogFragment("Nom du vaisseau", "", "Go !", "Annuler")
+            dialog = RegisterDialogFragment(getString(R.string.spatialship_name), "", getString(R.string.go), getString(R.string.cancel))
         }
 
         dialog?.onPositiveClick = {
