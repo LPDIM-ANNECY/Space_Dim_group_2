@@ -13,18 +13,19 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
-import fr.test200.spacedim.dataClass.Event
-import fr.test200.spacedim.dataClass.EventType
-import fr.test200.spacedim.dataClass.State
+import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
 import fr.test200.spacedim.network.WSListener
 import fr.test200.spacedim.waitingRoom.WaitingRoomFragmentDirections
 import fr.test200.spacedim.waitingRoom.WaitingRoomViewModel
 import fr.test200.spacedim.waitingRoom.WaitingRoomViewModelFactory
+import org.w3c.dom.Entity
+import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 enum class moduleTypes {
     BUTTON, SWITCH
@@ -62,21 +63,7 @@ class DashboardFragment : Fragment() {
         soundAmbiance?.start()
         tictac?.start()
 
-        val moduleTypeList = mutableListOf<String>()
-        val moduleMaxNumber = 9
-        val moduleNumber = (4..moduleMaxNumber).random()
 
-        ObjectAnimator.ofInt(binding.progressBar, "progress", 100)
-                .setDuration(10000)
-                .start()
-
-        for (moduleIndex in 0..moduleNumber) {
-            val moduleType = moduleTypes.values()[(moduleTypes.values().indices).random()]
-            moduleTypeList.add(moduleType.toString())
-        }
-
-        //création des boutons
-        makeList(moduleTypeList, moduleNumber)
 
         viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
@@ -88,10 +75,15 @@ class DashboardFragment : Fragment() {
     private fun updateWebSocketState(event: Event?) {
         when(event){
             is Event.GameStarted -> {
-
+                createRows(event.uiElementList)
             }
             is Event.NextAction -> {
+                binding.timeRemain.setProgress(0, false)
+                ObjectAnimator.ofInt(binding.timeRemain, "progress", 100)
+                        .setDuration(event.action.time)
+                        .start()
 
+                binding.action.text = event.action.sentence
             }
             is Event.NextLevel -> {
 
@@ -120,42 +112,62 @@ class DashboardFragment : Fragment() {
         tictac?.start()
     }
 
-    private fun makeList(moduleTypeList: MutableList<String>, moduleNumber: Int) {
-        val numberOfRow: Int = (moduleTypeList.size / 2)
-        var countButton = 0
-        for (rowIndex in 0..numberOfRow) {
+    fun createRows(moduleList: List<UIElement>) {
+        val moduleNumber = moduleList.size
+        val numberOfRow: Int = (moduleNumber / 2)
+
+        val myMap = mutableMapOf<Int, List<UIElement>>()
+
+        moduleList.chunked(2).forEachIndexed { index, list ->
+            myMap[index] = list
+        }
+
+        myMap.map {
             val row = TableRow(this.context)
             row.gravity = 17
-            for ((index, type) in moduleTypeList.withIndex()) {
-                if (countButton < moduleNumber && (index == rowIndex || index == rowIndex + 1)) {
-                    val element = Button(this.context)
-                    /*when (type) {
-                            "SWITCH" -> {
-                                element = Button(this.context)
-                            }
-                            "BUTTON" -> {
-                                element = Switch(this.context)
-                            }
-                            else -> {
-                                print("don't find type")
-                            }
-                        }*/
 
-
-
-                    element.setOnClickListener(View.OnClickListener {
-                        MediaPlayer.create(this.activity, R.raw.button_click).start()
-                    })
-
-                    element.text = "tric"
-                    val params = TableRow.LayoutParams( 500, 145 ).also { it.setMargins(25, 25, 25, 25) }
-                    element.layoutParams = params
-                    row.addView(element)
-                    countButton ++
-                }
+            it.value.forEach {
+                val element = createModule(it)
+                row.addView(element)
             }
+
             binding.tabletruc.addView(row)
         }
+    }
+
+    fun createModule(module: UIElement): View {
+
+        var element = View(this.context)
+        val params = TableRow.LayoutParams( 500, 145 ).also { it.setMargins(25, 25, 25, 25) }
+
+        /* Cher correcteur,
+        Désolé pour ce doublon ci-dessous, je n'ai pas trouvé une alternative
+        (comme attribuer la bonne view dans le bouton et lui attribuer des paramètres
+        en dehors du when)
+        Bonne continuation (et lecture) */
+
+        when(module.type) {
+            UIType.BUTTON -> {
+                element = Button(this.context)
+                element.text = module.content
+                element.setOnClickListener {
+                    viewModel.sendAction(module)
+                    MediaPlayer.create(this.activity, R.raw.button_click).start()
+                }
+                element.layoutParams = params
+            }
+
+            UIType.SWITCH -> {
+                element = Switch(this.context)
+                element.text = module.content
+                element.setOnClickListener {
+                    viewModel.sendAction(module)
+                    MediaPlayer.create(this.activity, R.raw.button_click).start()
+                }
+                element.layoutParams = params
+            }
+        }
+        return element
     }
 
     fun gameFinished(score: Int, win: Boolean) {
@@ -165,5 +177,4 @@ class DashboardFragment : Fragment() {
         action.win = win
         NavHostFragment.findNavController(this).navigate(action)
     }
-
 }
