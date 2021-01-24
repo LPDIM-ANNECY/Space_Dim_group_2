@@ -73,7 +73,8 @@ class WSListener : WebSocketListener() {
     }
 
     fun sendAction(uiElement: UIElement){
-        webSocket?.send("{\"type\":\"PLAYER_ACTION\", \"uiElement\":{\"id\":\"${uiElement.id}\", \"type\"\"${uiElement.type}\", \"value\":${uiElement.content}}}")
+        val request = Event.PlayerAction(uiElement)
+        webSocket?.send(GameEventTools.spaceEventParser.toJson(request))
     }
 
     fun stopWebSocket(){

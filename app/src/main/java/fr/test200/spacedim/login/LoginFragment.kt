@@ -17,6 +17,7 @@ import fr.test200.spacedim.Utils.Companion.createDialog
 import fr.test200.spacedim.Utils.Companion.hideKeyboard
 import fr.test200.spacedim.Utils.Companion.setTimeout
 import fr.test200.spacedim.dataClass.HTTPState
+import fr.test200.spacedim.dataClass.UIElement
 import fr.test200.spacedim.databinding.LoginFragmentBinding
 
 
@@ -106,39 +107,6 @@ class LoginFragment : Fragment() {
             }
         }
     }
-
-    /*private fun createEventRegisterUser(btnRegister: Button) {
-        val oldColors: ColorStateList = login_info_register.textColors // switch white (loading) to red (error)
-
-        btnRegister.setOnClickListener {
-            login_info_register.setTextColor(oldColors) // white
-            login_info_register.text = resources.getString(R.string.common_loading)
-            val editTextPseudo: EditText = findViewById(R.id.login_pseudo)
-            val pseudo: String = editTextPseudo.text.trim().toString()
-
-            Utils.hideKeyboard(this)
-
-            UserPost(pseudo).create(
-                fun() { // success
-                    runOnUiThread { // android.view.ViewRootImpl$CalledFromWrongThreadException: Only the original thread that created a view hierarchy can touch its views.
-                        login_info_register.text = resources.getString(R.string.login_title_user_create)
-                    }
-                }, fun() { // unauthorized
-                    runOnUiThread {
-                        login_info_register.setTextColor(resources.getColor(R.color.text_error, theme))
-                        login_info_register.text = resources.getString(R.string.login_title_already_exist)
-                    }
-                }, fun() { // error
-                    runOnUiThread {
-                        login_info_register.setTextColor(resources.getColor(R.color.text_error, theme))
-                        login_info_register.text = resources.getString(R.string.login_title_fail)
-                    }
-                })
-        }
-    }
-    */
-
-
 }
 
 

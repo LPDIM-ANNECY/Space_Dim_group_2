@@ -63,8 +63,6 @@ class DashboardFragment : Fragment() {
         soundAmbiance?.start()
         tictac?.start()
 
-
-
         viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
         })
@@ -86,7 +84,7 @@ class DashboardFragment : Fragment() {
                 binding.action.text = event.action.sentence
             }
             is Event.NextLevel -> {
-
+                createRows(event.uiElementList)
             }
             is Event.GameOver -> {
                 try {
@@ -113,6 +111,7 @@ class DashboardFragment : Fragment() {
     }
 
     fun createRows(moduleList: List<UIElement>) {
+        binding.tabletruc.removeAllViews()
         val moduleNumber = moduleList.size
         val numberOfRow: Int = (moduleNumber / 2)
 
@@ -159,6 +158,16 @@ class DashboardFragment : Fragment() {
 
             UIType.SWITCH -> {
                 element = Switch(this.context)
+                element.text = module.content
+                element.setOnClickListener {
+                    viewModel.sendAction(module)
+                    MediaPlayer.create(this.activity, R.raw.button_click).start()
+                }
+                element.layoutParams = params
+            }
+
+            UIType.SHAKE -> {
+                element = Button(this.context)
                 element.text = module.content
                 element.setOnClickListener {
                     viewModel.sendAction(module)
