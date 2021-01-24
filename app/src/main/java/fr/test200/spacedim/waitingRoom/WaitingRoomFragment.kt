@@ -98,6 +98,7 @@ class WaitingRoomFragment : Fragment() {
     private fun updateWebSocketState(event: Event?) {
         when(event){
             is Event.WaitingForPlayer -> {
+                binding.socketActiveColor.setImageResource(R.drawable.ic_socket_active)
                 //Create Element in fragment
                 binding.vaisseauName.text = Html.fromHtml("Vaisseau : <b>${viewModel.vaisseauName}</b>", Html.FROM_HTML_MODE_COMPACT)
                 binding.buttonJoinRoom.visibility = View.INVISIBLE
