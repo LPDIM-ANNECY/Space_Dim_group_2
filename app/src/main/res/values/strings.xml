@@ -22,6 +22,14 @@
     <string name="waitingRoom_no_ship_join">Aucun vaisseau rejoint</string>
     <string name="waitingRoom_socket_inactive">Socket inactif</string>
     <string name="waitingRoom_start_sentence">Entre le nom d\'un vaisseau ou crées en un !</string>
+    <string name="waitingWaitForReady">Ready ?</string>
+    <string name="ready">Prêt ?</string>
+    <string name="socket_active">Socket active</string>
+    <string name="you_are_ready"><![CDATA[<i> Vous êtes prêt! <br> En attente de la préparation des joueurs </i>]]></string>
+    <string name="spatialship_name">Nom du vaisseau</string>
+    <string name="spatialship_room"><![CDATA[Vaisseau : <b>%s</b>]]></string>
+    <string name="cancel">Annuler</string>
+    <string name="go">Go !</string>
 
 
     <!--_________________Dashboard Layout_________________-->
@@ -46,12 +54,5 @@
     <string name="end_text_btn_high_score">Meilleurs scores</string>
     <string name="end_text_btn_share">Partager votre exploit</string>
     <string name="end_text_content_image_description">rocket</string>
-    <string name="waitingWaitForReady">Ready ?</string>
-    <string name="ready">Prêt ?</string>
-    <string name="socket_active">Socket active</string>
-    <string name="you_are_ready"><![CDATA[<i> Vous êtes prêt! <br> En attente de la préparation des joueurs </i>]]></string>
-    <string name="spatialship_name">Nom du vaisseau</string>
-    <string name="cancel">Annuler</string>
-    <string name="go">Go !</string>
-    <string name="spatialship_room"><![CDATA[Vaisseau : <b>%s</b>]]></string>
+
 </resources>
