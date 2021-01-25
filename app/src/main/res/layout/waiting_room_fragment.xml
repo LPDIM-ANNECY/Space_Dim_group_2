@@ -40,11 +40,11 @@
             android:id="@+id/vaisseau_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
             android:text="@{WaitingRoomViewModel.spatialshipNameText}"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/buttonJoinRoom" />
 
         <TextView
             android:id="@+id/txtSocketActive"
@@ -73,7 +73,6 @@
             android:layout_marginTop="8dp"
             android:text="@string/waitingRoom_btn_join"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSocketActive"
             android:onClick="@{() -> WaitingRoomViewModel.onDisplayPopupRoomName()}"/>
@@ -82,12 +81,12 @@
             android:id="@+id/buttonReady"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:paddingHorizontal="25dp"
+            android:layout_margin="8dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
             android:visibility="invisible"
             android:text="@string/waitingWaitForReady"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtSocketActive"
             android:onClick="@{() -> WaitingRoomViewModel.sendReady()}"/>
@@ -95,8 +94,8 @@
         <LinearLayout
             android:id="@+id/WaitingRoomlinearLayout"
             android:layout_width="0dp"
-            android:layout_height="313dp"
-            android:layout_marginTop="43dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="50dp"
             android:background="@drawable/astronaute_on_moon"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="parent"
