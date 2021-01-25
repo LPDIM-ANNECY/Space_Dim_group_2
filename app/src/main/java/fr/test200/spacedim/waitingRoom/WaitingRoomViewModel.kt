@@ -24,10 +24,6 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     //endregion
 
     //region Event
-    private val _eventWaitingRoomStatus = MutableLiveData<EventType>()
-    val eventWaitingRoomStatus: LiveData<EventType>
-        get() = _eventWaitingRoomStatus
-
     private val _eventSocketActive = MutableLiveData<Boolean>()
     val eventSocketActive: LiveData<Boolean>
         get() = _eventSocketActive
@@ -48,7 +44,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     //endregion
 
     init {
-        _eventWaitingRoomStatus.value = EventType.WAITING_FOR_PLAYER
+
     }
 
     /**
@@ -71,7 +67,6 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     }
 
     fun sendReady() {
-        _eventWaitingRoomStatus.value = EventType.READY
         userRepository.setStateReady()
         webSocket.sendReady()
     }

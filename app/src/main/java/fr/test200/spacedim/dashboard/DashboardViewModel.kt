@@ -29,8 +29,14 @@ class DashboardViewModel(webSocket: WSListener) : ViewModel() {
         get() = _moduleTypeList
     //endregion
 
-    init {
+    //region Event
+    private val _eventShake = MutableLiveData<Boolean>()
+    val eventShake: LiveData<Boolean>
+        get() = _eventShake
+    //endregion
 
+    init {
+        _eventShake.value = false
     }
 
 
@@ -41,11 +47,20 @@ class DashboardViewModel(webSocket: WSListener) : ViewModel() {
         super.onCleared()
     }
 
-    fun sendAction(uiElement: UIElement){
+    fun sendAction(uiElement: UIElement) {
         webSocket.sendAction(uiElement)
     }
 
-    fun closeWebSocketConnection(){
+    fun closeWebSocketConnection() {
         webSocket.webSocket?.let { webSocket.onClosing(it, 1000, "finish") }
+        webSocket.webSocket = null
+    }
+
+    fun onEventShake() {
+        _eventShake.value = true
+    }
+
+    fun onEventShakeComplete() {
+        _eventShake.value = false
     }
 }

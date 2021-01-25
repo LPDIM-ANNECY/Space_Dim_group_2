@@ -1,26 +1,37 @@
 package fr.test200.spacedim.dashboard
 
 import android.animation.ObjectAnimator
+import android.content.Context
+import android.hardware.SensorManager
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.content.ContextCompat.getSystemServiceName
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.NavHostFragment
+import com.squareup.seismic.ShakeDetector
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
+import fr.test200.spacedim.Utils.Companion.setTimeout
 import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
+import kotlinx.coroutines.launch
+import java.lang.Thread.sleep
+
 
 enum class moduleTypes {
     BUTTON, SWITCH
 }
 
-class DashboardFragment : Fragment() {
+class DashboardFragment : Fragment(), ShakeDetector.Listener {
 
     private lateinit var binding: DashboardFragmentBinding
 
@@ -31,14 +42,17 @@ class DashboardFragment : Fragment() {
     private var soundAmbiance: MediaPlayer? = null
     private var tictac: MediaPlayer? = null
 
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         //region Initialisation Fragment
         binding = DataBindingUtil.inflate(
-                inflater,
-                R.layout.dashboard_fragment,
-                container,
-                false
+            inflater,
+            R.layout.dashboard_fragment,
+            container,
+            false
         )
 
         binding.dashboardViewModel = viewModel
@@ -50,6 +64,10 @@ class DashboardFragment : Fragment() {
         tictac?.isLooping = true
         soundAmbiance?.start()
         tictac?.start()
+
+        val sensorManager = this.activity?.applicationContext?.getSystemService(SensorManager::class.java) as SensorManager
+        val sd = ShakeDetector(this)
+        sd.start(sensorManager)
         //endregion
 
         //region Observer
@@ -67,6 +85,7 @@ class DashboardFragment : Fragment() {
                 createRows(event.uiElementList)
             }
             is Event.NextAction -> {
+                viewModel.onEventShakeComplete()
                 resetAndStartTime(event.action.time)
                 binding.action.text = event.action.sentence
             }
@@ -76,8 +95,7 @@ class DashboardFragment : Fragment() {
             is Event.GameOver -> {
                 try {
                     gameFinished(event.score, event.win)
-                }
-                catch (exception: Exception){
+                } catch (exception: Exception) {
                     throw exception
                 }
             }
@@ -128,7 +146,7 @@ class DashboardFragment : Fragment() {
     fun createModule(module: UIElement): View {
 
         var element = View(this.context)
-        val params = TableRow.LayoutParams( 500, 145 ).also { it.setMargins(25, 25, 25, 25) }
+        val params = TableRow.LayoutParams(500, 145).also { it.setMargins(25, 25, 25, 25) }
 
         /* Cher correcteur,
         Désolé pour ce doublon ci-dessous, je n'ai pas trouvé une alternative
@@ -156,16 +174,6 @@ class DashboardFragment : Fragment() {
                 }
                 element.layoutParams = params
             }
-
-            UIType.SHAKE -> {
-                element = Button(this.context)
-                element.text = module.content
-                element.setOnClickListener {
-                    viewModel.sendAction(module)
-                    MediaPlayer.create(this.activity, R.raw.button_click).start()
-                }
-                element.layoutParams = params
-            }
         }
         return element
     }
@@ -176,5 +184,13 @@ class DashboardFragment : Fragment() {
         action.score = score
         action.win = win
         NavHostFragment.findNavController(this).navigate(action)
+    }
+
+    override fun hearShake() {
+        if (viewModel.eventShake.value == false) {
+            Log.i("shake", "shake ;)")
+            viewModel.sendAction(UIElement.Shake(1, "Bouge"))
+            viewModel.onEventShake()
+        }
     }
 }
