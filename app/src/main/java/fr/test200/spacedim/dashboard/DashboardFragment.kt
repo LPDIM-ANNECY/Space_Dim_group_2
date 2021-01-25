@@ -42,11 +42,7 @@ class DashboardFragment : Fragment(), ShakeDetector.Listener {
     private var soundAmbiance: MediaPlayer? = null
     private var tictac: MediaPlayer? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         //region Initialisation Fragment
         binding = DataBindingUtil.inflate(
             inflater,
@@ -134,9 +130,11 @@ class DashboardFragment : Fragment(), ShakeDetector.Listener {
             val row = TableRow(this.context)
             row.gravity = 17
 
-            it.value.forEach {
-                val element = createModule(it)
-                row.addView(element)
+            it.value.forEach { element ->
+                if(element.type != UIType.SHAKE){
+                    val element = createModule(element)
+                    row.addView(element)
+                }
             }
 
             binding.tabletruc.addView(row)
@@ -188,7 +186,6 @@ class DashboardFragment : Fragment(), ShakeDetector.Listener {
 
     override fun hearShake() {
         if (viewModel.eventShake.value == false) {
-            Log.i("shake", "shake ;)")
             viewModel.sendAction(UIElement.Shake(1, "Bouge"))
             viewModel.onEventShake()
         }
