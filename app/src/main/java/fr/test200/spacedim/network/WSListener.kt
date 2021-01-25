@@ -31,6 +31,7 @@ class WSListener : WebSocketListener() {
     override fun onMessage(webSocket: WebSocket, text: String) {
         val response = GameEventTools.spaceEventParser.fromJson(text)
         response?.let {
+            Log.i("shake", it.toString())
             updateWebSocketState(it)
         }
     }
@@ -40,6 +41,8 @@ class WSListener : WebSocketListener() {
     }
 
     override fun onClosing(webSocket: WebSocket, code: Int, reason: String) {
+        this.webSocket = null
+        webSocketState = MutableLiveData<Event>()
         webSocket.close(NORMAL_CLOSURE_STATUS, null)
     }
 
@@ -56,20 +59,20 @@ class WSListener : WebSocketListener() {
     }
 
     // update etat du web socket
-    private fun updateWebSocketState(event: Event){
+    private fun updateWebSocketState(event: Event) {
         webSocketState.postValue(event)
     }
 
-    fun joinRoom(name: String, user: User){
+    fun joinRoom(name: String, user: User) {
         val request = Request.Builder().url("${Config.PROTOCOL}://${Config.HOST}:${Config.PORT}/ws/join/${name}/${user.id}").build()
         webSocket = OkHttpClient().newWebSocket(request, this)
     }
 
-    fun sendReady(){
+    fun sendReady() {
         webSocket?.send("{\"type\":\"READY\", \"value\":true}")
     }
 
-    fun sendAction(uiElement: UIElement){
+    fun sendAction(uiElement: UIElement) {
         val request = Event.PlayerAction(uiElement)
         webSocket?.send(GameEventTools.spaceEventParser.toJson(request))
     }

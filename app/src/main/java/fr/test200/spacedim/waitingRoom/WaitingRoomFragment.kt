@@ -91,6 +91,7 @@ class WaitingRoomFragment : Fragment() {
             }
             State.OVER -> {
                 binding.buttonJoinRoom.visibility = View.VISIBLE
+                viewModel.setTextSpatialshipName(getString(R.string.waitingRoom_no_ship_join))
             }
         }
     }
