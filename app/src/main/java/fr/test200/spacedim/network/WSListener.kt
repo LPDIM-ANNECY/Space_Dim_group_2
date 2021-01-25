@@ -74,9 +74,4 @@ class WSListener : WebSocketListener() {
         webSocket?.send(GameEventTools.spaceEventParser.toJson(request))
     }
 
-    fun stopWebSocket(){
-        webSocket?.close(1000, null)
-        webSocket = null
-    }
-
 }
