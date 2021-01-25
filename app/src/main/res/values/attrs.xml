@@ -5,4 +5,5 @@
     <attr name="colorOnPrimary" format="reference" />
     <attr name="colorSecondaryVariant" format="reference" />
     <attr name="colorOnSecondary" format="reference" />
+    <attr name="colorInverse" format="reference" />
 </resources>
