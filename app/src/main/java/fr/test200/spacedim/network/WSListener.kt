@@ -26,14 +26,11 @@ class WSListener : WebSocketListener() {
 
     override fun onOpen(webSocket: WebSocket, response: Response) {
         Log.i("log", "onOpen")
-        println("onOpen")
-        println(response)
     }
 
     override fun onMessage(webSocket: WebSocket, text: String) {
         val response = GameEventTools.spaceEventParser.fromJson(text)
         response?.let {
-            Log.i("testlog", it.toString())
             updateWebSocketState(it)
         }
     }

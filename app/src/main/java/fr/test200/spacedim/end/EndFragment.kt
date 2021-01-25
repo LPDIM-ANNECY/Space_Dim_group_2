@@ -19,12 +19,8 @@ class EndFragment : Fragment() {
     private lateinit var viewModel: EndViewModel
     private lateinit var viewModelFactory: EndViewModelFactory
 
-    override fun onCreateView(
-            inflater: LayoutInflater,
-            container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        //region Initialisation Fragment
         val binding: EndFragmentBinding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.end_fragment,
@@ -34,19 +30,21 @@ class EndFragment : Fragment() {
 
         viewModelFactory = EndViewModelFactory(EndFragmentArgs.fromBundle(requireArguments()).score, EndFragmentArgs.fromBundle(requireArguments()).win)
         viewModel = ViewModelProvider(this, viewModelFactory).get(EndViewModel::class.java)
-        // Data binding
+
         binding.endViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        //endregion
 
+        //region Observer
         viewModel.win.observe(viewLifecycleOwner, {
             if (it) viewModel.setWinText(getString(R.string.end_text_comment_win)) else viewModel.setWinText(getString(R.string.end_text_comment_lose))
         })
 
         viewModel.score.observe(viewLifecycleOwner, {
             when {
-                it < 100 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_laika))
-                it in 100..199 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_yuri))
-                it in 200..299 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_valentina))
+                it < 200 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_laika))
+                it in 200..399 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_yuri))
+                it in 400..699 -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_valentina))
                 else -> viewModel.setReputationText(getString(R.string.end_text_space_reputation_apollo11))
             }
         })
@@ -64,6 +62,7 @@ class EndFragment : Fragment() {
                 viewModel.onGoHighScoreComplete()
             }
         })
+        //endregion
 
         return binding.root
     }

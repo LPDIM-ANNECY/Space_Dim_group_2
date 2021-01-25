@@ -9,19 +9,21 @@ import fr.test200.spacedim.repository.UserRepository
 
 class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener) : ViewModel() {
 
+    //region UserData
     val userRepository: UserRepository by lazy {
         userRepository
     }
+    fun getUserState(): LiveData<State> = userRepository.currentUserState
+    //endregion
 
+    //region WebSocket
     val webSocket: WSListener by lazy {
         webSocket
     }
-
-    // recupération etat du websocket
     fun getWebSocketState(): LiveData<Event> = webSocket.webSocketState
+    //endregion
 
-    fun getUserState(): LiveData<State> = userRepository.currentUserState
-
+    //region Event
     private val _eventWaitingRoomStatus = MutableLiveData<EventType>()
     val eventWaitingRoomStatus: LiveData<EventType>
         get() = _eventWaitingRoomStatus
@@ -30,6 +32,12 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     val eventSocketActive: LiveData<Boolean>
         get() = _eventSocketActive
 
+    private val _eventShowDialog = MutableLiveData<Boolean>()
+    val eventShowDialog: LiveData<Boolean>
+        get() = _eventShowDialog
+    //endregion
+
+    //region Room name/Ship name
     private val _spatialshipName = MutableLiveData<String>()
     val spatialshipName: LiveData<String>
         get() = _spatialshipName
@@ -37,10 +45,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
     private val _spatialshipNameText = MutableLiveData<String>()
     val spatialshipNameText: LiveData<String>
         get() = _spatialshipNameText
-
-    private val _eventShowDialog = MutableLiveData<Boolean>()
-    val eventShowDialog: LiveData<Boolean>
-        get() = _eventShowDialog
+    //endregion
 
     init {
         _eventWaitingRoomStatus.value = EventType.WAITING_FOR_PLAYER
@@ -54,7 +59,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
         super.onCleared()
     }
 
-    fun joinRoom(name: String){
+    fun joinRoom(name: String) {
         _spatialshipName.value = name
         _eventSocketActive.value = true
         userRepository.setStateWaiting()
@@ -65,7 +70,7 @@ class WaitingRoomViewModel(userRepository: UserRepository, webSocket: WSListener
         _eventShowDialog.value = true
     }
 
-    fun sendReady(){
+    fun sendReady() {
         _eventWaitingRoomStatus.value = EventType.READY
         userRepository.setStateReady()
         webSocket.sendReady()

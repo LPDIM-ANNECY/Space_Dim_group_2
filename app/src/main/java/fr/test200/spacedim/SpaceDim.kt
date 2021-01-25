@@ -6,7 +6,7 @@ import fr.test200.spacedim.repository.UserRepository
 
 class SpaceDim : Application() {
 
-    companion object{
+    companion object {
         val userRepository = UserRepository()
         val webSocket = WSListener()
     }

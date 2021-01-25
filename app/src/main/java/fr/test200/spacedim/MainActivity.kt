@@ -11,8 +11,6 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var navController: NavController
 
-    private val scope = MainScope()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)

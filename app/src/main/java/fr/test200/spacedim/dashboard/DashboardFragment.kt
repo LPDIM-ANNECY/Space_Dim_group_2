@@ -3,8 +3,6 @@ package fr.test200.spacedim.dashboard
 import android.animation.ObjectAnimator
 import android.media.MediaPlayer
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,20 +10,11 @@ import android.widget.*
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import fr.test200.spacedim.R
 import fr.test200.spacedim.SpaceDim
 import fr.test200.spacedim.dataClass.*
 import fr.test200.spacedim.databinding.DashboardFragmentBinding
-import fr.test200.spacedim.network.WSListener
-import fr.test200.spacedim.waitingRoom.WaitingRoomFragmentDirections
-import fr.test200.spacedim.waitingRoom.WaitingRoomViewModel
-import fr.test200.spacedim.waitingRoom.WaitingRoomViewModelFactory
-import org.w3c.dom.Entity
-import kotlin.reflect.jvm.internal.impl.load.kotlin.JvmType
 
 enum class moduleTypes {
     BUTTON, SWITCH
@@ -43,9 +32,8 @@ class DashboardFragment : Fragment() {
     private var tictac: MediaPlayer? = null
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        //region Initialisation Fragment
         binding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.dashboard_fragment,
@@ -62,10 +50,13 @@ class DashboardFragment : Fragment() {
         tictac?.isLooping = true
         soundAmbiance?.start()
         tictac?.start()
+        //endregion
 
+        //region Observer
         viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
         })
+        //endregion
 
         return binding.root
     }
@@ -76,11 +67,7 @@ class DashboardFragment : Fragment() {
                 createRows(event.uiElementList)
             }
             is Event.NextAction -> {
-                binding.timeRemain.setProgress(0, false)
-                ObjectAnimator.ofInt(binding.timeRemain, "progress", 100)
-                        .setDuration(event.action.time)
-                        .start()
-
+                resetAndStartTime(event.action.time)
                 binding.action.text = event.action.sentence
             }
             is Event.NextLevel -> {
@@ -97,6 +84,13 @@ class DashboardFragment : Fragment() {
         }
     }
 
+    private fun resetAndStartTime(time: Long) {
+        binding.timeRemain.setProgress(0, false)
+        ObjectAnimator.ofInt(binding.timeRemain, "progress", 100)
+                .setDuration(time)
+                .start()
+    }
+
     override fun onPause() {
         super.onPause()
         soundAmbiance?.pause()
@@ -109,16 +103,16 @@ class DashboardFragment : Fragment() {
         tictac?.start()
     }
 
-    fun createRows(moduleList: List<UIElement>) {
+    private fun createRows(moduleList: List<UIElement>) {
         binding.tabletruc.removeAllViews()
 
-        val myMap = mutableMapOf<Int, List<UIElement>>()
+        val uiElementMap = mutableMapOf<Int, List<UIElement>>()
 
         moduleList.chunked(2).forEachIndexed { index, list ->
-            myMap[index] = list
+            uiElementMap[index] = list
         }
 
-        myMap.map {
+        uiElementMap.map {
             val row = TableRow(this.context)
             row.gravity = 17
 

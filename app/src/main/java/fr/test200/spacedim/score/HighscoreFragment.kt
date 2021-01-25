@@ -22,11 +22,8 @@ class HighscoreFragment : Fragment() {
 
     private lateinit var viewModel: HighscoreViewModel
 
-    override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
-    ): View {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+        //region Initialisation Fragment
         binding = DataBindingUtil.inflate(
                 inflater,
                 R.layout.highscore_fragment,
@@ -39,17 +36,19 @@ class HighscoreFragment : Fragment() {
         binding.highscoreViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
 
+        viewModel.getUserHighscore()
+        //endregion
+
+        //region Observer
+        viewModel.highscoreUser.observe(viewLifecycleOwner, {
+            createCardPlayer(it)
+        })
+        //endregion
 
         // event back pressed
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             onBackPressed()
         }
-
-        viewModel.getUserHighscore()
-
-        viewModel.highscoreUser.observe(viewLifecycleOwner, {
-            createCardPlayer(it)
-        })
 
         return binding.root
     }
@@ -58,8 +57,7 @@ class HighscoreFragment : Fragment() {
         findNavController().navigate(HighscoreFragmentDirections.actionHighscoreFragmentToEndFragment())
     }
 
-    private fun createCardPlayer(userList: List<User>){
-
+    private fun createCardPlayer(userList: List<User>) {
         val inflater = LayoutInflater.from(this.context)
 
         userList.forEach {

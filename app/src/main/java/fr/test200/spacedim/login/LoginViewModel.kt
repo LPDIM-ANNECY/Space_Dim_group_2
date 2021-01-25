@@ -14,30 +14,31 @@ import retrofit2.HttpException
 
 class LoginViewModel(userRepository: UserRepository) : ViewModel() {
 
-    // userRepository
+    //region user
     val userRepository : UserRepository by lazy {
         userRepository
     }
-    // current User
     val currentUser: LiveData<User> = userRepository.currentUser
+    //endregion
 
-    // edit text value
+    //region EditText
     val editTextName = EditTextName()
+    //endregion
 
-    // etat http d'une requete pour afficher un texte en fonction dans le fragment
+    // Etat http d'une requete pour afficher un texte en fonction dans le fragment
     val httpResponse = MediatorLiveData<HTTPState>()
 
-
+    //region Event
     private val _eventTryConnection = MutableLiveData<Boolean>()
     val eventTryConnection: LiveData<Boolean>
         get() = _eventTryConnection
-
+    //endregion
 
     init {
         editTextName.name = ""
         _eventTryConnection.value = false
-        //
-        httpResponse.addSource(userRepository.currentUser){
+
+        httpResponse.addSource(userRepository.currentUser) {
             httpResponse.value = HTTPState.LoginSuccessful(it)
         }
     }
@@ -48,7 +49,7 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
         super.onCleared()
     }
 
-    fun loginUser(userName: String){
+    fun loginUser(userName: String) {
         _eventTryConnection.value = true
         httpResponse.value = HTTPState.Loading
         viewModelScope.launch {
@@ -58,20 +59,20 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
                     userRepository.loginUser(it.body())
                 } else {
                     if (it.code() == 400){
-                        httpResponse.value = HTTPState.Error("Edit text is null")
+                        httpResponse.value = HTTPState.Error("Veuillez remplir le champ")
                     }
                     if (it.code() == 401){
-                        httpResponse.value = HTTPState.Error("User already exist")
+                        httpResponse.value = HTTPState.Error("Utilisateur existe déjà")
                     }
                     if (it.code() == 404){
-                        httpResponse.value = HTTPState.Error("User not found")
+                        httpResponse.value = HTTPState.Error("Utilisateur n'existe pas")
                     }
                 }
             }
         }
     }
 
-    fun registerUser(userName: String){
+    fun registerUser(userName: String) {
         _eventTryConnection.value = true
         viewModelScope.launch {
             val isRegister = SpaceDimApi.userService.registerUser(UserPost(userName))
@@ -80,10 +81,10 @@ class LoginViewModel(userRepository: UserRepository) : ViewModel() {
                     userRepository.registerUser(it.body())
                 } else {
                     if (it.code() == 400){
-                        httpResponse.value = HTTPState.Error("Edit text is null")
+                        httpResponse.value = HTTPState.Error("Veuillez remplir le champ")
                     }
                     if (it.code() == 401){
-                        httpResponse.value = HTTPState.Error("User already exist")
+                        httpResponse.value = HTTPState.Error("Utilisateur existe déjà")
                     }
                 }
             }

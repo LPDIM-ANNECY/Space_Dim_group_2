@@ -9,16 +9,19 @@ import kotlinx.coroutines.launch
 
 class HighscoreViewModel: ViewModel() {
 
+    // Etat http d'une requete pour afficher un texte en fonction dans le fragment
     val httpResponse = MediatorLiveData<HTTPState>()
 
+    //region Data
     private val _highscoreUser = MutableLiveData<List<User>>()
     val highscoreUser: LiveData<List<User>>
         get() = _highscoreUser
+    //endregion
 
-    fun getUserHighscore(){
+    fun getUserHighscore() {
         httpResponse.value = HTTPState.Loading
         viewModelScope.launch {
-            val isLogin = SpaceDimApi.userService.getUsersList("TOP")
+            val isLogin = SpaceDimApi.userService.getUsersList("top")
             isLogin?.let {
                 if (it.isSuccessful){
                     _highscoreUser.value = it.body()

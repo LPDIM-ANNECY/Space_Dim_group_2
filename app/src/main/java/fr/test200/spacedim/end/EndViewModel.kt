@@ -10,7 +10,7 @@ import fr.test200.spacedim.R
 
 class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
 
-    // The final score
+    //region Data
     private val _score = MutableLiveData<Int>()
     val score: LiveData<Int>
         get() = _score
@@ -18,7 +18,9 @@ class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
     private val _win = MutableLiveData<Boolean>()
     val win: LiveData<Boolean>
         get() = _win
+    //endregion
 
+    //region Text
     private val _winText = MutableLiveData<String>()
     val winText: LiveData<String>
         get() = _winText
@@ -26,7 +28,9 @@ class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
     private val _reputationText = MutableLiveData<String>()
     val reputationText: LiveData<String>
         get() = _reputationText
+    //endregion
 
+    //region Event
     private val _eventPlayAgain = MutableLiveData<Boolean>()
     val eventPlayAgain: LiveData<Boolean>
         get() = _eventPlayAgain
@@ -34,6 +38,7 @@ class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
     private val _eventHighScore = MutableLiveData<Boolean>()
     val eventHighScore: LiveData<Boolean>
         get() = _eventHighScore
+    //endregion
 
     init {
         _score.value = finalScore
@@ -47,11 +52,11 @@ class EndViewModel(finalScore: Int, win: Boolean)  : ViewModel() {
         super.onCleared()
     }
 
-    fun setWinText(text: String){
+    fun setWinText(text: String) {
         _winText.value = text
     }
 
-    fun setReputationText(text: String){
+    fun setReputationText(text: String) {
         _reputationText.value = text
     }
 

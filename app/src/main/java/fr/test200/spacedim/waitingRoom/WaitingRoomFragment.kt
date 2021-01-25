@@ -35,6 +35,7 @@ class WaitingRoomFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
+        //region Initialisation Fragment
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.waiting_room_fragment,
@@ -46,8 +47,9 @@ class WaitingRoomFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
 
         viewModel.setTextSpatialshipName(getString(R.string.waitingRoom_no_ship_join))
+        //endregion
 
-        // OBSERVABLE
+        //region Observer
         viewModel.getWebSocketState().observe(viewLifecycleOwner, {
             updateWebSocketState(it)
         })
@@ -65,6 +67,7 @@ class WaitingRoomFragment : Fragment() {
                 binding.txtSocketActive.text = getString(R.string.socket_active)
             }
         })
+        //endregion
 
         // event back pressed
         requireActivity().onBackPressedDispatcher.addCallback(this) {}
@@ -72,7 +75,7 @@ class WaitingRoomFragment : Fragment() {
         return binding.root
     }
 
-    private fun updateRoomStatus(eventType: State){
+    private fun updateRoomStatus(eventType: State) {
         when(eventType){
             State.WAITING ->{
                 binding.buttonReady.visibility = View.VISIBLE
@@ -95,16 +98,17 @@ class WaitingRoomFragment : Fragment() {
     private fun updateWebSocketState(event: Event?) {
         when(event){
             is Event.WaitingForPlayer -> {
+                //Set interface UI
                 binding.socketActiveColor.setImageResource(R.drawable.ic_socket_active)
-                //Create Element in fragment
                 viewModel.setTextSpatialshipName(Html.fromHtml(getString(R.string.spatialship_room, viewModel.spatialshipName.value), Html.FROM_HTML_MODE_COMPACT).toString())
                 binding.buttonJoinRoom.visibility = View.INVISIBLE
+                //Create cardView with user in room
                 binding.listPlayerLayout.removeAllViews()
                 event.userList.forEach {
                     createCardView(it.name, it.state)
                 }
                 //Check all player ready
-               if (event.userList.count() > 1 && event.allUserReady()){
+               if (event.userList.count() > 1 && event.allUserReady()) {
                    changeViewToDashBoard()
                }
             }
@@ -127,7 +131,6 @@ class WaitingRoomFragment : Fragment() {
         }
         activity?.supportFragmentManager?.let {
             dialog?.show(it, "RegisterDialog")
-            println("isHidden " + dialog?.isHidden)
         }
     }
 

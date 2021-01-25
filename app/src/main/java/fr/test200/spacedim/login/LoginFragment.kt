@@ -30,11 +30,9 @@ class LoginFragment : Fragment() {
     }
     private var soundAmbiance: MediaPlayer? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
 
+        //region Initialisation Fragment
         binding = DataBindingUtil.inflate(
             inflater,
             R.layout.login_fragment,
@@ -44,24 +42,29 @@ class LoginFragment : Fragment() {
 
         binding.loginViewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        //endregion
 
+        //region SoundAmbiance
         soundAmbiance = MediaPlayer.create(this.activity, R.raw.space_ambience)
         soundAmbiance?.isLooping = true
 
         setTimeout({ soundAmbiance?.start() }, 1000)
+        //endregion
+
+        //region Observer
+        viewModel.eventTryConnection.observe(viewLifecycleOwner, {
+            if(it) hideKeyboard(requireActivity())
+        })
+
+        viewModel.httpResponse.observe(viewLifecycleOwner, {
+            httpStateUi(it)
+        })
+        //endregion
 
         // event back pressed
         requireActivity().onBackPressedDispatcher.addCallback(this) {
             onBackPressed()
         }
-
-        viewModel.eventTryConnection.observe(viewLifecycleOwner, Observer<Boolean>{
-            if(it) hideKeyboard(requireActivity())
-        })
-
-        viewModel.httpResponse.observe(viewLifecycleOwner, Observer {
-            httpStateUi(it)
-        })
 
         return binding.root
     }
@@ -88,7 +91,7 @@ class LoginFragment : Fragment() {
         )
     }
 
-    private fun httpStateUi(state: HTTPState){
+    private fun httpStateUi(state: HTTPState) {
         when(state){
             is HTTPState.Loading ->{
 

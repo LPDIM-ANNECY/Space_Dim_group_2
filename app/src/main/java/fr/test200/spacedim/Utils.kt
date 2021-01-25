@@ -11,13 +11,7 @@ import kotlin.system.exitProcess
 class Utils {
 
     companion object {
-        fun createDialog(
-            context: Context,
-            title: String,
-            message: String,
-            cancelable: Boolean = true,
-            onQuit: () -> Unit = fun (){}
-        ): AlertDialog? {
+        fun createDialog(context: Context, title: String, message: String, cancelable: Boolean = true, onQuit: () -> Unit = fun (){}): AlertDialog? {
             val alertDialog: AlertDialog.Builder = AlertDialog.Builder(context)
 
             if (!cancelable) alertDialog.setCancelable(false)
@@ -53,5 +47,4 @@ class Utils {
             }.start()
         }
     }
-
 }

@@ -16,19 +16,18 @@ import fr.test200.spacedim.network.WSListener
 
 class DashboardViewModel(webSocket: WSListener) : ViewModel() {
 
-    private val scoreTest: Int = 42
-
-    // webSocket
+    //region WebSocket
     val webSocket: WSListener by lazy {
         webSocket
     }
-
-    // recupération etat du websocket
     fun getWebSocketState(): LiveData<Event> = webSocket.webSocketState
+    //endregion
 
+    //region Data
     private val _moduleTypeList = MutableLiveData<MutableList<String>>()
     val moduleTypeList: LiveData<MutableList<String>>
         get() = _moduleTypeList
+    //endregion
 
     init {
 
@@ -47,6 +46,6 @@ class DashboardViewModel(webSocket: WSListener) : ViewModel() {
     }
 
     fun closeWebSocketConnection(){
-        webSocket.stopWebSocket()
+        webSocket.webSocket?.let { webSocket.onClosing(it, 1000, "finish") }
     }
 }

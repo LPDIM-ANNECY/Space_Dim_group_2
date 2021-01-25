@@ -13,23 +13,23 @@ class UserRepository {
 
     var currentUserState = MutableLiveData(State.OVER)
 
-    fun loginUser(user: User?){
+    fun loginUser(user: User?) {
         _currentUser.postValue(user)
     }
 
-    fun registerUser(user: User?){
+    fun registerUser(user: User?) {
         _currentUser.postValue(user)
     }
 
-    fun setStateReady(){
+    fun setStateReady() {
         currentUserState.postValue(State.READY)
     }
 
-    fun setStateWaiting(){
+    fun setStateWaiting() {
         currentUserState.postValue(State.WAITING)
     }
 
-    fun setStateInGame(){
+    fun setStateInGame() {
         currentUserState.postValue(State.IN_GAME)
     }
 }
